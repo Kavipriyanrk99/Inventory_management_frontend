@@ -4,8 +4,10 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 const Search = ({ search, setSearch }) => {
     return(
         <form className='bg-raisinblack min-w-64 p-1.5 rounded-xl m-2 flex justify-center items-center'>
-            <label className='hidden'>search product</label>
+            <label htmlFor='search' className='hidden'>search product</label>
             <input
+                name='search'
+                id='search'
                 placeholder="Search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
