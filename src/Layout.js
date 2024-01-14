@@ -4,7 +4,7 @@ import Head from "./components/Head";
 
 const Layout = () => {
     return(
-        <main>
+        <main className="flex">
             <Head />
             <Outlet />
         </main>

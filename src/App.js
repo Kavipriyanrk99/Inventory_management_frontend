@@ -12,7 +12,7 @@ import NotFound from './components/NotFound';
 
 function App() {
   return (
-    <div className="App scroll-smooth min-h-screen bg-black font-sans text-white">
+    <div className="App scroll-smooth min-h-screen bg-richblack font-sans text-white">
       {<Routes>
             <Route path='/' element={<Layout />}>
                 <Route index element={<Dashboard />} />
