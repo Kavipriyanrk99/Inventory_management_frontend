@@ -60,7 +60,19 @@ function App() {
             "date": "2024-01-08T06:48:14.000Z",
             "totalInbound": 1,
             "totalOutbound": 0
-        }
+        },
+        {
+            "_id": "659b9aae9e7f427947cb6d50",
+            "productID": "PRD-0005",
+            "productName": "Lenovo Legion",
+            "unitPrice": 12499,
+            "quantityInStock": 1,
+            "barcode": "",
+            "description": "Made by Lenovo",
+            "date": "2024-01-08T06:48:14.000Z",
+            "totalInbound": 1,
+            "totalOutbound": 0
+        },
     ]);
     const [product, setProduct] = useState({
         _id: "",
