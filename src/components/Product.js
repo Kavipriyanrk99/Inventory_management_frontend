@@ -6,10 +6,41 @@ import { ProductTable } from "./Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
+import axios from "../API/axios";
+
+const GET_PRODUCT_URI = '/products';
 
 const Product = ({ products, setProducts}) => {
     const [search, setSearch] = useState('');
     const [addBtnClk, setAddBtnClk] = useState({'clicked' : false});
+    const [productFetchError, setProductFetchError] = useState(null);
+    const [isProductLoading, setIsProductLoading]   = useState(true);
+
+    useEffect(() => {
+        productsFetch();
+    }, []);
+
+    const productsFetch = () => {
+        setTimeout(async () => {
+            try{
+                const response = await axios.get(GET_PRODUCT_URI);
+
+                if(response?.status === 200){
+                    setProducts(response.data);
+                    setProductFetchError(null);
+                }
+            } catch(err){
+                console.log(err);
+                if (!err?.response) {
+                    setProductFetchError('No Server Response');
+                } else {
+                    setProductFetchError(err.response.data.message);
+                }
+            } finally{
+                setIsProductLoading(false);
+            }
+          }, 3000);
+    }
 
     const handleAddBtnClk = () => {
         setAddBtnClk({'clicked' : !addBtnClk.clicked});

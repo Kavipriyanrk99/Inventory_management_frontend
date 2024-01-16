@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleXmark, faIndianRupeeSign, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import axios from '../API/axios';
 
@@ -103,8 +103,8 @@ const AddForm = ({ products, setProducts, handleAddBtnClk }) => {
         <form className="w-96 p-4 bg-raisinblack border-2 border-blue-600 rounded-xl flex flex-col relative" onSubmit={handleSubmit}>
             <FontAwesomeIcon icon={faCircleXmark} className="absolute top-4 right-4 text-xl text-red-500 cursor-pointer active:opacity-90" onClick={handleAddBtnClk}/>
             <h2 className="text-xl font-bold py-4 pl-2">New Product</h2>
-            {successMsg && <p className="text-sm text-blue-500 px-4"><FontAwesomeIcon icon={faInfoCircle}/> {successMsg}</p>}
-            {errorMsg && <p className="text-sm text-red-400 px-4"><FontAwesomeIcon icon={faInfoCircle}/> {errorMsg}</p>}
+            {successMsg && <p className="text-sm text-blue-600 px-2 pb-2"><FontAwesomeIcon icon={faCircleCheck}/> {successMsg}</p>}
+            {errorMsg && <p className="text-sm text-red-400 px-2 pb-2"><FontAwesomeIcon icon={faInfoCircle}/> {errorMsg}</p>}
             <div className="flex flex-col gap-4 px-2">
                 <div className="w-full h-fit flex flex-col gap-1.5">
                     <label 
@@ -148,7 +148,7 @@ const AddForm = ({ products, setProducts, handleAddBtnClk }) => {
                     <label 
                         className="text-sm text-slate-400"
                         htmlFor="unitPrice"
-                    >Unit Price</label>
+                    >Unit Price <FontAwesomeIcon icon={faIndianRupeeSign} /></label>
                     <input 
                         className="w-auto h-10 pl-4 bg-black bg-opacity-40 rounded-lg outline-none focus:border-2 focus:bg-transparent border-blue-600 text-slate-300"
                         id="unitPrice"
