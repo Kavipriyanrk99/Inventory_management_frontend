@@ -57,6 +57,8 @@ const Product = ({ products, setProducts}) => {
                         {addBtnClk.clicked && 
                             <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-raisinblack bg-opacity-20 backdrop-blur-md drop-shadow-lg z-10">
                                 <AddForm 
+                                    products={products}
+                                    setProducts={setProducts}
                                     handleAddBtnClk={handleAddBtnClk}
                                 />
                             </div> 

@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
+import axios from '../API/axios';
 
-const AddForm = ({ handleAddBtnClk }) => {
+const PRODUCT_ADD_URL = '/products/newproduct';
+
+const AddForm = ({ products, setProducts, handleAddBtnClk }) => {
     const productNameRef = useRef();
 
     const [productName, setProductName] = useState('');
@@ -17,7 +20,8 @@ const AddForm = ({ handleAddBtnClk }) => {
     const [description, setDescription] = useState('');
     const [descriptionFocus, setDescriptionFocus] = useState(false);
 
-    const [errorMsg, setErrorMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
     
     useEffect(() => {
         productNameRef.current.focus();
@@ -25,12 +29,13 @@ const AddForm = ({ handleAddBtnClk }) => {
 
     useEffect(() => {
         setErrorMsg('');
+        setSuccessMsg('');
     }, [productName, unitPrice, description]); // future add barcode
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         if(!productName || !unitPrice || !description){
-            setErrorMsg(true);
+            setErrorMsg("fields can't be empty");
             return;
         }
 
@@ -39,14 +44,67 @@ const AddForm = ({ handleAddBtnClk }) => {
             return;
         }
 
-        console.log(productName + barcode + unitPrice + description);
+        try{
+            const product = {
+                productName: productName,
+                barcode: barcode,
+                unitPrice: unitPrice,
+                description: description
+              };
+            
+            const response = await axios.post(PRODUCT_ADD_URL, product, {
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+            
+            setSuccessMsg(response.statusText);
+        } catch(err){
+            if (!err?.response) {
+                setErrorMsg('error occured : No Server Response');
+            } else if (err.response?.statusText) {
+                setErrorMsg("error occured : " + err.response.statusText.toLowerCase());
+            } else {
+                setErrorMsg('error occured : Adding new product failed')
+            }
+        } finally{
+            setTimeout(() => {
+                setProductName('');
+                setBarcode('');
+                setUnitPrice(0);
+                setDescription('');
+                setProductNameFocus(false);
+                setBarcodeFocus(false);
+                setUnitPriceFocus(false);
+                setDescriptionFocus(false);
+                setErrorMsg('');
+                setSuccessMsg('');
+            }, 1500)
+        }
+    }
+
+    const handleClear = (event) => {
+        event.preventDefault();
+        setProductName('');
+        setBarcode('');
+        setUnitPrice(0);
+        setDescription('');
+        setProductNameFocus(false);
+        setBarcodeFocus(false);
+        setUnitPriceFocus(false);
+        setDescriptionFocus(false);
+        setErrorMsg('');
+        setSuccessMsg('');
+
+        productNameRef.current.focus();
     }
 
     return(
         <form className="w-96 p-4 bg-raisinblack border-2 border-blue-600 rounded-xl flex flex-col relative" onSubmit={handleSubmit}>
             <FontAwesomeIcon icon={faCircleXmark} className="absolute top-4 right-4 text-xl text-red-500 cursor-pointer active:opacity-90" onClick={handleAddBtnClk}/>
             <h2 className="text-xl font-bold py-4 pl-2">New Product</h2>
-            {errorMsg && <p className="text-sm text-red-400 px-4"><FontAwesomeIcon icon={faInfoCircle}/>fields can't be empty</p>}
+            {successMsg && <p className="text-sm text-blue-500 px-4"><FontAwesomeIcon icon={faInfoCircle}/> {successMsg}</p>}
+            {errorMsg && <p className="text-sm text-red-400 px-4"><FontAwesomeIcon icon={faInfoCircle}/> {errorMsg}</p>}
             <div className="flex flex-col gap-4 px-2">
                 <div className="w-full h-fit flex flex-col gap-1.5">
                     <label 
@@ -130,6 +188,7 @@ const AddForm = ({ handleAddBtnClk }) => {
                 >Add</button>
                 <button 
                     className="w-24 h-9 py-2 text-sm font-semibold rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90"
+                    onClick={handleClear}
                 >Clear</button>
             </div>
         </form>
