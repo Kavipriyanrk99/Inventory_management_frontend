@@ -9,7 +9,11 @@ import AddForm from "./AddForm";
 
 const Product = ({ products, setProducts}) => {
     const [search, setSearch] = useState('');
-    const [addBtnClk, setAddBtnClk] = useState(false);
+    const [addBtnClk, setAddBtnClk] = useState({'clicked' : false});
+
+    const handleAddBtnClk = () => {
+        setAddBtnClk({'clicked' : !addBtnClk.clicked});
+    }
 
     return(
         <section className="w-full py-4">
@@ -46,13 +50,17 @@ const Product = ({ products, setProducts}) => {
                         <h2 className="text-xl font-bold">
                             Product List
                         </h2>
-                        <button className="w-24 py-1 px-2 rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90">
+                        <button className="w-24 py-1 px-2 rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90" onClick={handleAddBtnClk}>
                             <span className="px-2 font-semibold">Add</span>
                             <FontAwesomeIcon icon={faPlusCircle}/>
                         </button>
-                        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-raisinblack bg-opacity-20 backdrop-blur-md drop-shadow-lg z-10">
-                            <AddForm />
-                        </div>
+                        {addBtnClk.clicked && 
+                            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-raisinblack bg-opacity-20 backdrop-blur-md drop-shadow-lg z-10">
+                                <AddForm 
+                                    handleAddBtnClk={handleAddBtnClk}
+                                />
+                            </div> 
+                        }
                     </div>
                     <div className="mt-4 px-8 py-2 max-h-[500px] border-2 border-raisinblack rounded-lg overflow-y-auto">
                         <ProductTable

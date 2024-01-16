@@ -74,18 +74,7 @@ function App() {
             "totalOutbound": 0
         },
     ]);
-    const [product, setProduct] = useState({
-        _id: "",
-        productID: "",
-        productName: "",
-        unitPrice: 0.0,
-        quantityInStock: 0,
-        barcode: "",
-        description: "",
-        date: "",
-        totalInbound: 0,
-        totalOutbound: 0
-      });
+    
     return (
         <div className="App scroll-smooth min-h-screen bg-richblack font-sans text-white">
         {<Routes>
