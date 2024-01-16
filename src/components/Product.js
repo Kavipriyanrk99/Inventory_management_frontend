@@ -8,6 +8,7 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
 import axios from "../API/axios";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
+import { NoDataFound } from "./Errors";
 
 const GET_PRODUCT_URI = '/products';
 
@@ -101,7 +102,7 @@ const Product = ({ products, setProducts}) => {
                         }
                     </div>
                     { isProductLoading && <SquareSpinnerAnimation />}
-                    { productFetchError && <p style={{ color: "red" }}>{`${productFetchError}`}</p>}
+                    { productFetchError && <NoDataFound />}
                     {
                         !isProductLoading && 
                         !productFetchError && 

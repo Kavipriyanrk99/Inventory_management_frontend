@@ -11,6 +11,12 @@ export const UnitsMetricsCard = ({ isProductLoading, productFetchError, stockUni
             />
             {isProductLoading && <DotLoaderAnimation />}
             {   
+                productFetchError &&
+                <h3 className="text-2xl font-bold pt-1">
+                    {'...'}
+                </h3>
+            }
+            {   
                 !isProductLoading &&
                 !productFetchError &&
                 <h3 className="text-2xl font-bold pt-1">
@@ -33,6 +39,12 @@ export const PriceMetricsCard = ({ isProductLoading, productFetchError, stockWor
                 className='text-3xl px-4 py-2.5 rounded-lg bg-gradient-to-b from-green-400 to-green-500 backdrop-blur-lg' 
             />
             {isProductLoading && <DotLoaderAnimation />}
+            {   
+                productFetchError &&
+                <h3 className="text-2xl font-bold pt-1">
+                    {'...'}
+                </h3>
+            }
             {   
                 !isProductLoading &&
                 !productFetchError &&
