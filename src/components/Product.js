@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
 import axios from "../API/axios";
+import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 
 const GET_PRODUCT_URI = '/products';
 
@@ -39,7 +40,7 @@ const Product = ({ products, setProducts}) => {
             } finally{
                 setIsProductLoading(false);
             }
-          }, 3000);
+          }, 5000);
     }
 
     const handleAddBtnClk = () => {
@@ -70,9 +71,13 @@ const Product = ({ products, setProducts}) => {
                     <article className="flex gap-16">
                         <UnitsMetricsCard 
                             stockUnits={50}
+                            isProductLoading={isProductLoading}
+                            productFetchError={productFetchError}
                         />
                         <PriceMetricsCard 
                             stockWorth={1000}
+                            isProductLoading={isProductLoading}
+                            productFetchError={productFetchError}
                         />
                     </article>
                 </article>
@@ -95,11 +100,18 @@ const Product = ({ products, setProducts}) => {
                             </div> 
                         }
                     </div>
-                    <div className="mt-4 px-8 py-2 max-h-[500px] border-2 border-raisinblack rounded-lg overflow-y-auto">
-                        <ProductTable
-                            products={products.filter(product => (product.productName).toLowerCase().includes(search.toLowerCase().trim()))}
-                        />
-                    </div>
+                    { isProductLoading && <SquareSpinnerAnimation />}
+                    { productFetchError && <p style={{ color: "red" }}>{`${productFetchError}`}</p>}
+                    {
+                        !isProductLoading && 
+                        !productFetchError && 
+                        <div className="mt-4 px-8 py-2 max-h-[500px] border-2 border-raisinblack rounded-lg overflow-y-auto relative">
+                            <ProductTable
+                                products={products.filter(product => (product.productName).toLowerCase().includes(search.toLowerCase().trim()))}
+                            />
+                        </div>
+                        
+                    }
                 </article>
             </section>
         </section>
