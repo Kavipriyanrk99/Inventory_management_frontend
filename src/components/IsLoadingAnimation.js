@@ -9,11 +9,11 @@ export const SquareSpinnerAnimation = () => {
 
 export const DotLoaderAnimation = () => {
     return(
-        <div class='flex items-center py-3.5'>
-            <span class='sr-only'>Loading...</span>
-            <div class='h-2 w-2 mr-1 bg-white rounded-full animate-bounce [animation-delay:-0.3s]'></div>
-            <div class='h-2 w-2 mr-1 bg-white rounded-full animate-bounce [animation-delay:-0.15s]'></div>
-            <div class='h-2 w-2 bg-white rounded-full animate-bounce'></div>
+        <div className='flex items-center py-3.5'>
+            <span className='sr-only'>Loading...</span>
+            <div className='h-2 w-2 mr-1 bg-white rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+            <div className='h-2 w-2 mr-1 bg-white rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+            <div className='h-2 w-2 bg-white rounded-full animate-bounce'></div>
         </div>      
     );
 }

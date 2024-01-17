@@ -8,7 +8,7 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
 import axios from "../API/axios";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
-import { NoDataFound } from "./Errors";
+import { NoDataFound, SomethingWentWrong } from "./Errors";
 
 const GET_PRODUCT_URI = '/products';
 
@@ -32,9 +32,8 @@ const Product = ({ products, setProducts}) => {
                     setProductFetchError(null);
                 }
             } catch(err){
-                console.log(err);
                 if (!err?.response) {
-                    setProductFetchError('No Server Response');
+                    setProductFetchError('No server response!');
                 } else {
                     setProductFetchError(err.response.data.message);
                 }
@@ -102,7 +101,8 @@ const Product = ({ products, setProducts}) => {
                         }
                     </div>
                     { isProductLoading && <SquareSpinnerAnimation />}
-                    { productFetchError && <NoDataFound />}
+                    { productFetchError && productFetchError === "No Products found!" && <NoDataFound />}
+                    { productFetchError && productFetchError === "No server response!" && <SomethingWentWrong />}
                     {
                         !isProductLoading && 
                         !productFetchError && 
