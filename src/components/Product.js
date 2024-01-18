@@ -2,25 +2,37 @@ import { useState, useEffect } from "react";
 import Search from "./Search";
 import User from "./User";
 import { UnitsMetricsCard, PriceMetricsCard} from "./MetricsCard";
-import { ProductTable } from "./Table";
+import ProductTable from "./ProductTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
 import axios from "../API/axios";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 import { NoDataFound, SomethingWentWrong } from "./Errors";
+import { ProductDeleteAlert } from "./Alerts";
 
 const GET_PRODUCT_URI = '/products';
 
 const Product = ({ products, setProducts}) => {
     const [search, setSearch] = useState('');
     const [addBtnClk, setAddBtnClk] = useState({'clicked' : false});
+    const [delProduct, setDelProduct] = useState({
+        'productID': '',
+        'productName': ''
+    });
     const [productFetchError, setProductFetchError] = useState(null);
     const [isProductLoading, setIsProductLoading]   = useState(true);
+    const [stockUnits, setStockUnits] = useState(0);
+    const [stockWorth, setStockWorth] = useState(0);
 
     useEffect(() => {
         productsFetch();
     }, []);
+
+    useEffect(() => {
+        stockWorthFinder();
+        stockUnitsFinder();
+    }, [products]);
 
     const productsFetch = () => {
         setTimeout(async () => {
@@ -41,6 +53,22 @@ const Product = ({ products, setProducts}) => {
                 setIsProductLoading(false);
             }
           }, 5000);
+    }
+
+    const stockWorthFinder = () => {
+        let price = 0;
+        for(let index = 0; index < products.length; index++){
+          price += parseFloat(products[index].unitPrice) * parseInt(products[index].quantityInStock);
+        }
+        setStockWorth(price);
+    }
+    
+    const stockUnitsFinder = () => {
+        let units = 0;
+        for(let index = 0; index < products.length; index++){
+            units += parseInt(products[index].quantityInStock);
+        }
+        setStockUnits(units);
     }
 
     const handleAddBtnClk = () => {
@@ -70,12 +98,12 @@ const Product = ({ products, setProducts}) => {
                     </h2>
                     <article className="flex gap-16">
                         <UnitsMetricsCard 
-                            stockUnits={50}
+                            stockUnits={stockUnits}
                             isProductLoading={isProductLoading}
                             productFetchError={productFetchError}
                         />
                         <PriceMetricsCard 
-                            stockWorth={1000}
+                            stockWorth={stockWorth}
                             isProductLoading={isProductLoading}
                             productFetchError={productFetchError}
                         />
@@ -93,9 +121,8 @@ const Product = ({ products, setProducts}) => {
                         {addBtnClk.clicked && 
                             <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-raisinblack bg-opacity-20 backdrop-blur-md drop-shadow-lg z-10">
                                 <AddForm 
-                                    products={products}
-                                    setProducts={setProducts}
                                     handleAddBtnClk={handleAddBtnClk}
+                                    productsFetch={productsFetch}
                                 />
                             </div> 
                         }
@@ -106,12 +133,23 @@ const Product = ({ products, setProducts}) => {
                     {
                         !isProductLoading && 
                         !productFetchError && 
-                        <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[525px]">
+                        <div className="max-h-[520px] overflow-y-auto rounded-lg">
                             <ProductTable
                                 products={products.filter(product => (product.productName).toLowerCase().includes(search.toLowerCase().trim()))}
+                                setDelProduct={setDelProduct}
                             />
                         </div>
                         
+                    }
+                    {
+                        delProduct.productID && delProduct.productName &&
+                            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-raisinblack bg-opacity-20 backdrop-blur-md drop-shadow-lg z-10">
+                                <ProductDeleteAlert 
+                                    delProduct={delProduct}
+                                    setDelProduct={setDelProduct}
+                                    productsFetch={productsFetch}
+                                />
+                            </div> 
                     }
                 </article>
             </section>
