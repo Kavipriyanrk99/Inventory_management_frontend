@@ -106,7 +106,7 @@ const Product = ({ products, setProducts}) => {
                     {
                         !isProductLoading && 
                         !productFetchError && 
-                        <div className="mt-4 px-8 py-2 max-h-[500px] border-2 border-raisinblack rounded-lg overflow-y-auto relative">
+                        <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[525px]">
                             <ProductTable
                                 products={products.filter(product => (product.productName).toLowerCase().includes(search.toLowerCase().trim()))}
                             />
