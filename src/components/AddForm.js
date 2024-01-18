@@ -5,7 +5,7 @@ import axios from '../API/axios';
 
 const PRODUCT_ADD_URL = '/products/newproduct';
 
-const AddForm = ({ products, setProducts, handleAddBtnClk }) => {
+const AddForm = ({ handleAddBtnClk, productsFetch }) => {
     const productNameRef = useRef();
 
     const [productName, setProductName] = useState('');
@@ -59,6 +59,7 @@ const AddForm = ({ products, setProducts, handleAddBtnClk }) => {
             });
             
             setSuccessMsg(response.statusText);
+            productsFetch();
         } catch(err){
             if (!err?.response) {
                 setErrorMsg('error occured : No Server Response');

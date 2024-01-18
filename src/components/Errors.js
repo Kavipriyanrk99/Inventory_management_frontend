@@ -1,6 +1,6 @@
 export const NoDataFound = () => {
     return(
-        <div className="grid h-[500px] place-content-center px-4">
+        <div className="grid h-[520px] place-content-center px-4">
             <div className="text-center">
                 <svg version="1.1" viewBox="0 0 5333.3 5333.3" className="mx-auto h-56 w-auto sm:h-64" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -119,7 +119,7 @@ export const NoDataFound = () => {
 
 export const SomethingWentWrong = () => {
     return(
-        <div className="grid h-[500px] place-content-center px-4">
+        <div className="grid h-[520px] place-content-center px-4">
             <div className="text-center">
                 <svg version="1.1" viewBox="0 0 392 397" className="mx-auto h-56 w-auto sm:h-64" xmlns="http://www.w3.org/2000/svg">
                     <g fill="#98afcc">
