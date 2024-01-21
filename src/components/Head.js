@@ -67,7 +67,7 @@ const Head = () => {
     }
 
     return(
-        <section className='min-w-64 h-screen flex flex-col bg-raisinblack'>
+        <section className='min-w-64 h-screen flex flex-col bg-raisinblack border-r-2 border-blue-600'>
             <h1 className='mx-auto my-6'>
                 <FontAwesomeIcon icon={faCube} className='mr-2 text-4xl text-blue-600'/>
                 <span className='text-2xl'>
