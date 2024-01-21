@@ -6,6 +6,7 @@ import ProductTable from "./ProductTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
+import EditForm from "./EditForm";
 import axios from "../API/axios";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 import { NoDataFound, SomethingWentWrong } from "./Errors";
@@ -16,6 +17,13 @@ const GET_PRODUCT_URI = '/products';
 const Product = ({ products, setProducts}) => {
     const [search, setSearch] = useState('');
     const [addBtnClk, setAddBtnClk] = useState({'clicked' : false});
+    const [editProduct, setEditProduct] = useState({
+        'productID': '',
+        'productName': '',
+        'barcode': '',
+        'unitPrice': '',
+        'description': ''
+    });
     const [delProduct, setDelProduct] = useState({
         'productID': '',
         'productName': ''
@@ -137,6 +145,7 @@ const Product = ({ products, setProducts}) => {
                             <ProductTable
                                 products={products.filter(product => (product.productName).toLowerCase().includes(search.toLowerCase().trim()))}
                                 setDelProduct={setDelProduct}
+                                setEditProduct={setEditProduct}
                             />
                         </div>
                         
@@ -147,6 +156,16 @@ const Product = ({ products, setProducts}) => {
                                 <ProductDeleteAlert 
                                     delProduct={delProduct}
                                     setDelProduct={setDelProduct}
+                                    productsFetch={productsFetch}
+                                />
+                            </div> 
+                    }
+                    {
+                        editProduct.productID &&
+                            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-raisinblack bg-opacity-20 backdrop-blur-md drop-shadow-lg z-10">
+                                <EditForm 
+                                    editProduct={editProduct}
+                                    setEditProduct={setEditProduct}
                                     productsFetch={productsFetch}
                                 />
                             </div> 

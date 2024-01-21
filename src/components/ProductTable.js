@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock,faPenToSquare,faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NoDataFound } from "./Errors";
 
-const ProductTable = ({ products, setDelProduct }) => {
+const ProductTable = ({ products, setDelProduct , setEditProduct}) => {
     return(
         products.length > 0 ? 
             <table className="w-full text-sm text-left rtl:text-right text-slate-400">
@@ -103,7 +103,7 @@ const ProductTable = ({ products, setDelProduct }) => {
                                             <td className="px-6 py-4">{product.quantityInStock}</td>
                                             <td className="px-6 py-4">{parseFloat(product.unitPrice) * parseInt(product.quantityInStock)}</td>
                                             <td className="px-6 py-4">
-                                                <FontAwesomeIcon icon={faPenToSquare} className='p-2 mr-2 rounded-lg bg-gradient-to-b from-green-400 to-green-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90'/>
+                                                <FontAwesomeIcon icon={faPenToSquare} className='p-2 mr-2 rounded-lg bg-gradient-to-b from-green-400 to-green-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90' onClick={() => setEditProduct({'productID': product.productID, 'productName': product.productName, 'barcode': product.barcode, 'unitPrice': product.unitPrice, 'description': product.description})}/>
                                                 <FontAwesomeIcon icon={faTrash} className='p-2 ml-2 rounded-lg bg-gradient-to-b from-red-400 to-red-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90' onClick={() => setDelProduct({'productID': product.productID, 'productName': product.productName})}/>
                                             </td>
                                         </tr> 
