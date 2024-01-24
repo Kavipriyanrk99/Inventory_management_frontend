@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Search from "./Search";
-import TransactionTable from "./TransactionTable";
 import User from "./User";
+import TransactionList from "./TransactionList";
 
 const Transaction = () => {
     const [transactions, setTransactions] = useState([
@@ -13,7 +13,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T03:21:56.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65aca7a57a483580b76b839f",
@@ -23,7 +23,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T05:12:05.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acaff47a483580b76b83c2",
@@ -33,7 +33,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T05:47:32.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb4353d0331c3201fd9f2",
@@ -43,7 +43,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:05:41.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb46a3d0331c3201fd9fa",
@@ -53,7 +53,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:06:34.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb8453d0331c3201fda00",
@@ -63,7 +63,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:23:01.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb8613d0331c3201fda06",
@@ -73,7 +73,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:23:29.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb8d73d0331c3201fda0e",
@@ -83,7 +83,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:25:27.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb9293d0331c3201fda14",
@@ -93,7 +93,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:26:49.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acb9743d0331c3201fda1a",
@@ -103,7 +103,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:28:04.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acba3d3d0331c3201fda20",
@@ -113,7 +113,7 @@ const Transaction = () => {
             "quantity": 0,
             "transactionDate": "2024-01-21T06:31:25.000Z",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 0
+            "quantityInStock": 5
         },
         {
             "_id": "65acba573d0331c3201fda27",
@@ -164,8 +164,20 @@ const Transaction = () => {
             "transactionDate": "2024-01-21T14:59:08.000Z",
             "productName": "Mysore sandal",
             "quantityInStock": 0
+        },
+        {
+            "_id": "65aff26ff5b896fc108b8eb7",
+            "transactionID": "TRANS-2024-0037",
+            "productID": "PRD-0001",
+            "transactionType": "IN",
+            "quantity": 5,
+            "transactionDate": "2024-01-26T00:00:00.000Z",
+            "productName": "Dabur Red Paste",
+            "quantityInStock": 5
         }
     ]);
+    const [search, setSearch] = useState('');
+    const [transactionClkID, setTransactionClkID] = useState('');
 
     return(
         <section className="w-full py-4">
@@ -175,7 +187,8 @@ const Transaction = () => {
                 </h1>
                 <div className="flex">
                     <Search
-                        
+                        search={search}
+                        setSearch={setSearch}
                     />
                     <User
                         username={'Kavipriyan'} 
@@ -201,17 +214,19 @@ const Transaction = () => {
                         Showing 8 of 12 results
                     </p>
                 </article>
-                <article className="flex">
-                    <div className="w-3/5 max-h-[590px] overflow-y-auto">
-                        <TransactionTable 
-                            transactions={transactions}
-                        />
-                    </div>
-                    <div>
-                        <h2 className="text-xl font-bold">
-                            Transaction Details
-                        </h2>
-                    </div>
+                <article className="flex gap-4">
+                    <TransactionList 
+                        transactions={transactions.filter(transaction => (transaction.productName).toLowerCase().includes(search.toLowerCase().trim()))}
+                        transactionClkID={transactionClkID}
+                        setTransactionClkID={setTransactionClkID}
+                    />
+                    <article className="w-2/6">
+                        <div className="flex py-2 text-xs uppercase text-slate-400">
+                            <h2 className="w-1/4">
+                                Transaction Details
+                            </h2>
+                        </div>
+                    </article>
                 </article>
             </section>
         </section>
