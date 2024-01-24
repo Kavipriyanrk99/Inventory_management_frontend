@@ -177,7 +177,7 @@ const Transaction = () => {
         }
     ]);
     const [search, setSearch] = useState('');
-    const [transactionClkID, setTransactionClkID] = useState('');
+    const [pointerPosID, setPointerPosID] = useState('');
 
     return(
         <section className="w-full py-4">
@@ -217,8 +217,8 @@ const Transaction = () => {
                 <article className="flex gap-4">
                     <TransactionList 
                         transactions={transactions.filter(transaction => (transaction.productName).toLowerCase().includes(search.toLowerCase().trim()))}
-                        transactionClkID={transactionClkID}
-                        setTransactionClkID={setTransactionClkID}
+                        pointerPosID={pointerPosID}
+                        setPointerPosID={setPointerPosID}
                     />
                     <article className="w-2/6">
                         <div className="flex py-2 text-xs uppercase text-slate-400">
