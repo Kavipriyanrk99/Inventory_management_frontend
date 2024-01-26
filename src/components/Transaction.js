@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./Search";
 import User from "./User";
 import TransactionList from "./TransactionList";
+import { TransactionMetricsCard } from "./MetricsCard";
 
 const Transaction = () => {
     const [transactions, setTransactions] = useState([
@@ -12,8 +13,10 @@ const Transaction = () => {
             "transactionType": "CREATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T03:21:56.000Z",
+            "description": "Made by Dabur India",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65aca7a57a483580b76b839f",
@@ -22,8 +25,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T05:12:05.000Z",
+            "description": "Made By Only Redmi",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acaff47a483580b76b83c2",
@@ -32,8 +37,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T05:47:32.000Z",
+            "description": "Made By Dabur India",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb4353d0331c3201fd9f2",
@@ -42,8 +49,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:05:41.000Z",
+            "description": "Made By Dabur India",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb46a3d0331c3201fd9fa",
@@ -52,8 +61,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:06:34.000Z",
+            "description": "Made By Dabur India Ltd",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb8453d0331c3201fda00",
@@ -62,8 +73,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:23:01.000Z",
+            "description": "Made By Dabur India Ltd",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb8613d0331c3201fda06",
@@ -72,8 +85,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:23:29.000Z",
+            "description": "Made By Dabur India Ltd",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb8d73d0331c3201fda0e",
@@ -82,8 +97,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:25:27.000Z",
+            "description": "Made By Dabur India Ltd",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb9293d0331c3201fda14",
@@ -92,8 +109,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:26:49.000Z",
+            "description": "Made By Dabur India Ltd",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acb9743d0331c3201fda1a",
@@ -102,8 +121,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:28:04.000Z",
+            "description": "Made By Dabur India",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acba3d3d0331c3201fda20",
@@ -112,8 +133,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:31:25.000Z",
+            "description": "Made By Dabur India",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
         },
         {
             "_id": "65acba573d0331c3201fda27",
@@ -122,8 +145,10 @@ const Transaction = () => {
             "transactionType": "CREATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:31:51.000Z",
+            "description": "Made by Asus",
             "productName": "Zenfone 10",
-            "quantityInStock": 0
+            "quantityInStock": 0,
+            "unitPrice": 55000
         },
         {
             "_id": "65acba6a3d0331c3201fda2d",
@@ -132,8 +157,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:32:10.000Z",
+            "description": "Made by Asus",
             "productName": "Zenfone 10",
-            "quantityInStock": 0
+            "quantityInStock": 0,
+            "unitPrice": 55000
         },
         {
             "_id": "65acbad03d0331c3201fda33",
@@ -142,8 +169,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:33:52.000Z",
+            "description": "Made by Asus",
             "productName": "Zenfone 10",
-            "quantityInStock": 0
+            "quantityInStock": 0,
+            "unitPrice": 55000
         },
         {
             "_id": "65acbae13d0331c3201fda39",
@@ -152,8 +181,10 @@ const Transaction = () => {
             "transactionType": "UPDATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T06:34:09.000Z",
+            "description": "Made by Asus",
             "productName": "Zenfone 10",
-            "quantityInStock": 0
+            "quantityInStock": 0,
+            "unitPrice": 55000
         },
         {
             "_id": "65ad313c52ab805a9ddd778a",
@@ -162,8 +193,10 @@ const Transaction = () => {
             "transactionType": "CREATED",
             "quantity": 0,
             "transactionDate": "2024-01-21T14:59:08.000Z",
+            "description": "Made in Bengaluru",
             "productName": "Mysore sandal",
-            "quantityInStock": 0
+            "quantityInStock": 0,
+            "unitPrice": 45
         },
         {
             "_id": "65aff26ff5b896fc108b8eb7",
@@ -172,12 +205,47 @@ const Transaction = () => {
             "transactionType": "IN",
             "quantity": 5,
             "transactionDate": "2024-01-26T00:00:00.000Z",
+            "description": "5 Added",
             "productName": "Dabur Red Paste",
-            "quantityInStock": 5
+            "quantityInStock": 5,
+            "unitPrice": 25
+        },
+        {
+            "_id": "65b3806bf64cddbe2e24e1ee",
+            "transactionID": "TRANS-2024-0038",
+            "productID": "PRD-0001",
+            "transactionType": "IN",
+            "quantity": 5,
+            "transactionDate": "2024-01-26T00:00:00.000Z",
+            "description": "5 Added",
+            "productName": "Dabur Red Paste",
+            "quantityInStock": 5,
+            "unitPrice": 25
+        },
+        {
+            "_id": "65b38074f64cddbe2e24e1f6",
+            "transactionID": "TRANS-2024-0039",
+            "productID": "PRD-0001",
+            "transactionType": "OUT",
+            "quantity": 5,
+            "transactionDate": "2024-01-15T00:00:00.000Z",
+            "description": "5 Removed",
+            "productName": "Dabur Red Paste",
+            "quantityInStock": 5,
+            "unitPrice": 25
         }
     ]);
     const [search, setSearch] = useState('');
     const [pointerPosID, setPointerPosID] = useState('');
+    const [transactionSelected, setTransactionSelected] = useState(null);
+
+    useEffect(() => {
+        const transaction = transactions.find(transaction => transaction.transactionID === pointerPosID);
+        if(transaction)
+            setTransactionSelected(transaction);
+        else
+            setTransactionSelected(null);
+    }, [pointerPosID]);
 
     return(
         <section className="w-full py-4">
@@ -214,7 +282,7 @@ const Transaction = () => {
                         Showing 8 of 12 results
                     </p>
                 </article>
-                <article className="flex gap-4">
+                <article className="flex gap-8">
                     <TransactionList 
                         transactions={transactions.filter(transaction => (transaction.productName).toLowerCase().includes(search.toLowerCase().trim()))}
                         pointerPosID={pointerPosID}
@@ -222,10 +290,17 @@ const Transaction = () => {
                     />
                     <article className="w-2/6">
                         <div className="flex py-2 text-xs uppercase text-slate-400">
-                            <h2 className="w-1/4">
+                            <h2 >
                                 Transaction Details
                             </h2>
                         </div>
+                        {
+                            transactionSelected && 
+                                <TransactionMetricsCard 
+                                    transaction={transactionSelected}
+                                    setPointerPosID={setPointerPosID}
+                                />
+                        }
                     </article>
                 </article>
             </section>

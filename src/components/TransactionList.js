@@ -18,7 +18,7 @@ const TransactionList = ({ transactions, pointerPosID, setPointerPosID }) => {
                 <article className="max-h-[550px] overflow-y-auto">
                     {
                         [...transactions].reverse().map((transaction) => (
-                            <div key={transaction.transactionID} onClick={() => setPointerPosID(transaction.transactionID)}  className="flex items-center my-2 px-6 py-4 bg-raisinblack rounded-lg">
+                            <div key={transaction.transactionID} onClick={() => setPointerPosID(transaction.transactionID)}  className="flex items-center my-2 px-6 py-4 bg-raisinblack rounded-lg hover:cursor-pointer">
                                 <p className="w-1/4 font-semibold">
                                     <span>{getMonthName(transaction.transactionDate.split('T')[0]).slice(0, 3) + "."} </span>
                                     <span>{transaction.transactionDate.split('T')[0].split('-')[2]}</span>
