@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Search from "./Search";
 import User from "./User";
 import TransactionList from "./TransactionList";
-import { TransactionMetricsCard } from "./MetricsCard";
+import { EmptyTransactionCard, TransactionMetricsCard } from "./MetricsCard";
 
 const Transaction = () => {
     const [transactions, setTransactions] = useState([
@@ -300,6 +300,10 @@ const Transaction = () => {
                                     transaction={transactionSelected}
                                     setPointerPosID={setPointerPosID}
                                 />
+                        }
+                        {
+                            !transactionSelected && 
+                                <EmptyTransactionCard />
                         }
                     </article>
                 </article>
