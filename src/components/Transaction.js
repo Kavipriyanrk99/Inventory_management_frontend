@@ -5,7 +5,7 @@ import TransactionList from "./TransactionList";
 import { EmptyTransactionCard, TransactionMetricsCard } from "./MetricsCard";
 import SortList from "./SortList";
 import axios from "../API/axios";
-import { DateFilter, ProductFilter, TypeFilter } from "./Filters";
+import { DateFilter, PriceFilter, ProductFilter, QuantityFilter, TypeFilter } from "./Filters";
 
 const GET_TRANSACTION_URI = '/transactions';
 
@@ -26,6 +26,12 @@ const Transaction = () => {
     const [filterByProduct, setFilterByProduct] = useState('');
 
     const [filterByType, setFilterByType] = useState('');
+
+    const [filterByPriceFrom, setFilterByPriceFrom] = useState(0);
+    const [filterByQuantityFrom, setFilterByQuantityFrom] = useState(0);
+
+    const [filterByPriceTo, setFilterByPriceTo] = useState(0);
+    const [filterByQuantityTo, setFilterByQuantityTo] = useState(0);
 
     useEffect(() => {
         transactionsFetch();
@@ -151,9 +157,18 @@ const Transaction = () => {
                             filterByType={filterByType}
                             setFilterByType={setFilterByType}
                         />
-                        <div className="w-32 h-8 bg-white flex justify-center items-center rounded-lg">
-                            <span className="text-black">Product Name</span>
-                        </div>
+                        <PriceFilter
+                            filterByPriceFrom={filterByPriceFrom}
+                            setFilterByPriceFrom={setFilterByPriceFrom}
+                            filterByPriceTo={filterByPriceTo}
+                            setFilterByPriceTo={setFilterByPriceTo}
+                        />
+                        <QuantityFilter
+                            filterByQuantityFrom={filterByQuantityFrom}
+                            setFilterByQuantityFrom={setFilterByQuantityFrom}
+                            filterByQuantityTo={filterByQuantityTo}
+                            setFilterByQuantityTo={setFilterByQuantityTo}
+                        />
                     </article>
                 </article>
                 <article className="flex gap-2 justify-between items-center py-2 my-2 border-t-2 border-b-2 border-raisinblack">

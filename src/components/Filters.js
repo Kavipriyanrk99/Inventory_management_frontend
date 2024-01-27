@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export const DateFilter = ({ fromDate, setFromDate, toDate, setToDate}) => {
     return(
         <div className="flex items-center">
@@ -83,6 +81,64 @@ export const TypeFilter = ({ filterByType, setFilterByType }) => {
                 <option value="IN">IN</option>
                 <option value="OUT">OUT</option>
             </select>
+        </div>
+    );
+}
+
+export const PriceFilter = ({ filterByPriceFrom, setFilterByPriceFrom, filterByPriceTo, setFilterByPriceTo}) => {
+    return(
+        <div className="flex items-center">
+            <label htmlFor="priceFrom">Price:</label>
+            <div className="flex items-center px-2">
+                <input 
+                    id="priceFrom"
+                    type="number"
+                    placeholder="min"
+                    min={0}
+                    value={filterByPriceFrom}
+                    onChange={(e) => setFilterByPriceFrom(e.target.value)}
+                    className="w-16 px-2 py-1 text-slate-400 outline-none bg-raisinblack rounded-lg"
+                ></input> 
+                <span className="px-1 text-slate-400">to</span>
+                <input 
+                    id="priceTo"
+                    type="number"
+                    placeholder="max"
+                    min={0}
+                    value={filterByPriceTo}
+                    onChange={(e) => setFilterByPriceTo(e.target.value)}
+                    className="w-16 px-2 py-1 text-slate-400 outline-none bg-raisinblack rounded-lg"
+                ></input>
+            </div>            
+        </div>
+    );
+}
+
+export const QuantityFilter = ({ filterByQuantityFrom, setFilterByQuantityFrom, filterByQuantityTo, setFilterByQuantityTo}) => {
+    return(
+        <div className="flex items-center">
+            <label htmlFor="quantityFrom">Quantity:</label>
+            <div className="flex items-center px-2">
+                <input 
+                    id="quantityFrom"
+                    type="number"
+                    placeholder="min"
+                    min={0}
+                    value={filterByQuantityFrom}
+                    onChange={(e) => setFilterByQuantityFrom(e.target.value)}
+                    className="w-16 px-2 py-1 text-slate-400 outline-none bg-raisinblack rounded-lg"
+                ></input> 
+                <span className="px-1 text-slate-400">to</span>
+                <input 
+                    id="quantityTo"
+                    type="number"
+                    placeholder="max"
+                    min={0}
+                    value={filterByQuantityTo}
+                    onChange={(e) => setFilterByQuantityTo(e.target.value)}
+                    className="w-16 px-2 py-1 text-slate-400 outline-none bg-raisinblack rounded-lg"
+                ></input>
+            </div>            
         </div>
     );
 }
