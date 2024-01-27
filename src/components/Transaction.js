@@ -5,7 +5,7 @@ import TransactionList from "./TransactionList";
 import { EmptyTransactionCard, TransactionMetricsCard } from "./MetricsCard";
 import SortList from "./SortList";
 import axios from "../API/axios";
-import { DateFilter, ProductFilter } from "./Filters";
+import { DateFilter, ProductFilter, TypeFilter } from "./Filters";
 
 const GET_TRANSACTION_URI = '/transactions';
 
@@ -23,7 +23,9 @@ const Transaction = () => {
     const [filterToDate, setFilterToDate] = useState('');
 
     const [productFilterList, setProductFilterList] = useState([]);
-    const [filterProductBy, setFilterProductBy] = useState('');
+    const [filterByProduct, setFilterByProduct] = useState('');
+
+    const [filterByType, setFilterByType] = useState('');
 
     useEffect(() => {
         transactionsFetch();
@@ -142,8 +144,12 @@ const Transaction = () => {
                         />
                         <ProductFilter 
                             productFilterList={productFilterList}
-                            filterProductBy={filterProductBy}
-                            setFilterProductBy={setFilterProductBy}
+                            filterByProduct={filterByProduct}
+                            setFilterByProduct={setFilterByProduct}
+                        />
+                        <TypeFilter 
+                            filterByType={filterByType}
+                            setFilterByType={setFilterByType}
                         />
                         <div className="w-32 h-8 bg-white flex justify-center items-center rounded-lg">
                             <span className="text-black">Product Name</span>
