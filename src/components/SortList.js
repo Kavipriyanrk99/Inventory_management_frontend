@@ -1,4 +1,4 @@
-const FilterList = ({ sortOrder, setSortOrder }) => {
+const SortList = ({ sortOrder, setSortOrder }) => {
     return (
         <div className="relative w-48 max-w-full">
             <svg
@@ -14,8 +14,8 @@ const FilterList = ({ sortOrder, setSortOrder }) => {
                 />
             </svg>
             <select id="sortOrder" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="w-full px-3 py-2 text-sm text-white bg-raisinblack rounded-lg shadow-sm border-none outline-none appearance-none">
-                <option value="" disabled>Sort by:</option>
-                <option value="none">None</option>
+                {/* <option value="" disabled>Sort by:</option> */}
+                <option value="none">Sort by: none</option>
                 <option value="dateNewToOld">Date: New to Old</option>
                 <option value="dateOldToNew">Date: Old to New</option>
                 <option value="quantityHighToLow">Quantity: High to Low</option>
@@ -27,4 +27,4 @@ const FilterList = ({ sortOrder, setSortOrder }) => {
     );
   };
 
-  export default FilterList;
+  export default SortList;

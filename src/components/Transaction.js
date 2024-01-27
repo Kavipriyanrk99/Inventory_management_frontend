@@ -3,8 +3,9 @@ import Search from "./Search";
 import User from "./User";
 import TransactionList from "./TransactionList";
 import { EmptyTransactionCard, TransactionMetricsCard } from "./MetricsCard";
-import FilterList from "./FilterList";
+import SortList from "./SortList";
 import axios from "../API/axios";
+import { DateFilter, ProductFilter } from "./Filters";
 
 const GET_TRANSACTION_URI = '/transactions';
 
@@ -18,9 +19,36 @@ const Transaction = () => {
     const [transactionsFetchError, setTransactionsFetchError] = useState(null);
     const [isTransactionsLoading, setIsTransactionsLoading]   = useState(true);
 
+    const [filterFromDate, setFilterFromDate] = useState('');
+    const [filterToDate, setFilterToDate] = useState('');
+
+    const [productFilterList, setProductFilterList] = useState([]);
+    const [filterProductBy, setFilterProductBy] = useState('');
+
     useEffect(() => {
         transactionsFetch();
     }, []);
+
+    useEffect(() => {
+        if(transactions.length > 0){
+            const transactionsDateLowToHigh = [...transactions].sort((t1, t2) => new Date(t1.transactionDate) - new Date(t2.transactionDate));
+            const lowestDate = transactionsDateLowToHigh[0].transactionDate.split('T')[0];
+            const hightestDate = transactionsDateLowToHigh[transactionsDateLowToHigh.length - 1].transactionDate.split('T')[0];
+            setFilterFromDate(lowestDate);
+            setFilterToDate(hightestDate);
+
+            const uniqueProductIDs = new Set();
+            const uniqueTransactions = transactions.filter(transaction => {
+                if (!uniqueProductIDs.has(transaction.productID)) {
+                    uniqueProductIDs.add(transaction.productID);
+                    return true;
+                }
+                return false;
+            });
+    
+            setProductFilterList(uniqueTransactions);
+        }
+    }, [transactions]);
 
     useEffect(() => {
         switch(sortOrder){
@@ -106,9 +134,17 @@ const Transaction = () => {
                         Filters
                     </h2>
                     <article className="flex gap-12 my-2">
-                        <div className="w-20 h-8 bg-white flex justify-center items-center rounded-lg">
-                            <span className="text-black">Date</span>
-                        </div>
+                        <DateFilter
+                            fromDate={filterFromDate}
+                            setFromDate={setFilterFromDate}
+                            toDate={filterToDate}
+                            setToDate={setFilterToDate} 
+                        />
+                        <ProductFilter 
+                            productFilterList={productFilterList}
+                            filterProductBy={filterProductBy}
+                            setFilterProductBy={setFilterProductBy}
+                        />
                         <div className="w-32 h-8 bg-white flex justify-center items-center rounded-lg">
                             <span className="text-black">Product Name</span>
                         </div>
@@ -116,9 +152,9 @@ const Transaction = () => {
                 </article>
                 <article className="flex gap-2 justify-between items-center py-2 my-2 border-t-2 border-b-2 border-raisinblack">
                     <p className="py-6">
-                        Showing 8 of 12 results
+                        Showing {sortedTransactions.filter(transaction => (transaction.productName).toLowerCase().includes(search.toLowerCase().trim())).length} of {transactions.length} results
                     </p>
-                    <FilterList 
+                    <SortList 
                         sortOrder={sortOrder}
                         setSortOrder={setSortOrder}
                     />
