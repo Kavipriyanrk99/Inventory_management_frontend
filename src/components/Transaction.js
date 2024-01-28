@@ -7,7 +7,7 @@ import SortList from "./SortList";
 import axios from "../API/axios";
 import { DateFilter, PriceFilter, ProductFilter, QuantityFilter, TypeFilter } from "./Filters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const GET_TRANSACTION_URI = '/transactions';
 
@@ -64,8 +64,7 @@ const Transaction = () => {
 
     useEffect(() => {
         let transactionsCpy = [...transactions];
-        if(filterApplyBtn && transactions.length > 0){
-            console.log('Hi');
+        if(transactions.length > 0){
             const transactionsDateLowToHigh = [...transactions].sort((t1, t2) => new Date(t1.transactionDate) - new Date(t2.transactionDate));
             const lowestDate = transactionsDateLowToHigh[0].transactionDate.split('T')[0];
             const hightestDate = transactionsDateLowToHigh[transactionsDateLowToHigh.length - 1].transactionDate.split('T')[0];
@@ -126,7 +125,7 @@ const Transaction = () => {
                 setSortedTransactions([...transactionsCpy].sort((t1, t2) => parseInt(t1.unitPrice) - parseInt(t2.unitPrice)));
                 break;
 
-            case 'none':
+            default:
                 setSortedTransactions([...transactionsCpy].reverse());
         }   
     }, [sortOrder, filterApplyBtn]);
@@ -159,6 +158,22 @@ const Transaction = () => {
                 setIsTransactionsLoading(false);
             }
           }, 3000);
+    }
+
+    const handleClearBtnClk = () => {
+        const transactionsDateLowToHigh = [...transactions].sort((t1, t2) => new Date(t1.transactionDate) - new Date(t2.transactionDate));
+        const lowestDate = transactionsDateLowToHigh[0].transactionDate.split('T')[0];
+        const hightestDate = transactionsDateLowToHigh[transactionsDateLowToHigh.length - 1].transactionDate.split('T')[0];
+
+        setFilterFromDate(lowestDate);
+        setFilterToDate(hightestDate);
+        setFilterByProduct('');
+        setFilterByType('');
+        setFilterByPriceFrom(0);
+        setFilterByPriceTo(0);
+        setFilterByQuantityFrom(0);
+        setFilterByPriceTo(0);
+        setSortedTransactions([...transactions].reverse());
     }
 
     return(
@@ -212,10 +227,16 @@ const Transaction = () => {
                                 setFilterByQuantityTo={setFilterByQuantityTo}
                             />
                         </div>
-                        <button onClick={() => setFilterApplyBtn(!filterApplyBtn)} className="w-24 py-1 px-2 rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90">
-                            <span className="px-2 font-semibold">Apply</span>
-                            <FontAwesomeIcon icon={faFilter}/>
-                        </button>
+                        <div className="flex gap-4">
+                            <button onClick={() => setFilterApplyBtn(!filterApplyBtn)} className="w-24 py-1 px-2 rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90">
+                                <span className="px-2 font-semibold">Apply</span>
+                                <FontAwesomeIcon icon={faFilter}/>
+                            </button>
+                            <button onClick={handleClearBtnClk}  className="w-24 py-1 px-2 rounded-2xl bg-gradient-to-b from-red-400 to-red-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90">
+                                <span className="px-2 font-semibold">Clear</span>
+                                <FontAwesomeIcon icon={faXmark}/>
+                            </button>
+                        </div>
                     </article>
                 </article>
                 <article className="flex gap-2 justify-between items-center py-2 my-2 border-t-2 border-b-2 border-raisinblack">
