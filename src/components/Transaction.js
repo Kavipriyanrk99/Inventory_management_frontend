@@ -6,6 +6,8 @@ import { EmptyTransactionCard, TransactionMetricsCard } from "./MetricsCard";
 import SortList from "./SortList";
 import axios from "../API/axios";
 import { DateFilter, PriceFilter, ProductFilter, QuantityFilter, TypeFilter } from "./Filters";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const GET_TRANSACTION_URI = '/transactions';
 
@@ -33,6 +35,8 @@ const Transaction = () => {
     const [filterByPriceTo, setFilterByPriceTo] = useState(0);
     const [filterByQuantityTo, setFilterByQuantityTo] = useState(0);
 
+    const [filterApplyBtn, setFilterApplyBtn] = useState(false);
+
     useEffect(() => {
         transactionsFetch();
     }, []);
@@ -59,36 +63,73 @@ const Transaction = () => {
     }, [transactions]);
 
     useEffect(() => {
+        let transactionsCpy = [...transactions];
+        if(filterApplyBtn && transactions.length > 0){
+            console.log('Hi');
+            const transactionsDateLowToHigh = [...transactions].sort((t1, t2) => new Date(t1.transactionDate) - new Date(t2.transactionDate));
+            const lowestDate = transactionsDateLowToHigh[0].transactionDate.split('T')[0];
+            const hightestDate = transactionsDateLowToHigh[transactionsDateLowToHigh.length - 1].transactionDate.split('T')[0];
+    
+            const dateRangeValidity = filterFromDate !== lowestDate || filterToDate !== hightestDate;
+            const productValidity = filterByProduct !== '' && filterByProduct !== 'none'; 
+            const typeValidity = filterByType !== '' && filterByType !== 'none';
+            const priceValidity = filterByPriceFrom !== '' && filterByPriceTo !== '' && (parseFloat(filterByPriceFrom) !== 0.0 || parseFloat(filterByPriceTo) !== 0.0); 
+            const quantityValidity = filterByQuantityFrom !== '' && filterByQuantityTo !== '' && (parseFloat(filterByQuantityFrom) !== 0.0 || parseFloat(filterByQuantityTo) !== 0.0); 
+    
+            const filteredItems = transactionsCpy.filter((transaction) => {
+                let result = true;
+                if(dateRangeValidity)
+                    result = result && new Date(transaction.transactionDate) >= new Date(filterFromDate) && new Date(transaction.transactionDate) <= new Date(filterToDate);
+    
+                if(productValidity)
+                    result = result && transaction.productID === filterByProduct;
+    
+                if(typeValidity)
+                    result = result && transaction.transactionType === filterByType;
+    
+                if(priceValidity)
+                    result = result && parseFloat(transaction.unitPrice) >= parseFloat(filterByPriceFrom) && parseFloat(transaction.unitPrice) <= parseFloat(filterByPriceTo);
+    
+                if(quantityValidity)
+                    result = result && parseInt(transaction.quantity) >= parseInt(filterByQuantityFrom) && parseInt(transaction.quantity) <= parseInt(filterByQuantityTo);
+                
+                return result;
+            });
+            
+            console.log(filteredItems);
+            setSortedTransactions(filteredItems); 
+            transactionsCpy = [...filteredItems];
+        }
+
         switch(sortOrder){
             case 'dateNewToOld':
-                setSortedTransactions([...transactions].sort((t1, t2) => new Date(t2.transactionDate) - new Date(t1.transactionDate)));
+                setSortedTransactions([...transactionsCpy].sort((t1, t2) => new Date(t2.transactionDate) - new Date(t1.transactionDate)));
                 break;
 
             case 'dateOldToNew':
-                setSortedTransactions([...transactions].sort((t1, t2) => new Date(t1.transactionDate) - new Date(t2.transactionDate)));
+                setSortedTransactions([...transactionsCpy].sort((t1, t2) => new Date(t1.transactionDate) - new Date(t2.transactionDate)));
                 break;
 
             case 'quantityHighToLow':
-                setSortedTransactions([...transactions].sort((t1, t2) => parseInt(t2.quantity) - parseInt(t1.quantity)));
+                setSortedTransactions([...transactionsCpy].sort((t1, t2) => parseInt(t2.quantity) - parseInt(t1.quantity)));
                 break;
 
             case 'quantityLowToHigh':
-                setSortedTransactions([...transactions].sort((t1, t2) => parseInt(t1.quantity) - parseInt(t2.quantity)));
+                setSortedTransactions([...transactionsCpy].sort((t1, t2) => parseInt(t1.quantity) - parseInt(t2.quantity)));
                 break;
 
             case 'priceHighToLow':
-                setSortedTransactions([...transactions].sort((t1, t2) => parseInt(t2.unitPrice) - parseInt(t1.unitPrice)));
+                setSortedTransactions([...transactionsCpy].sort((t1, t2) => parseInt(t2.unitPrice) - parseInt(t1.unitPrice)));
                 break;
             
             case 'priceLowToHigh':
-                setSortedTransactions([...transactions].sort((t1, t2) => parseInt(t1.unitPrice) - parseInt(t2.unitPrice)));
+                setSortedTransactions([...transactionsCpy].sort((t1, t2) => parseInt(t1.unitPrice) - parseInt(t2.unitPrice)));
                 break;
 
-            default:
-                setSortedTransactions([...transactions].reverse());
+            case 'none':
+                setSortedTransactions([...transactionsCpy].reverse());
         }   
-
-    }, [sortOrder]);
+    }, [sortOrder, filterApplyBtn]);
 
     useEffect(() => {
         const transaction = transactions.find(transaction => transaction.transactionID === pointerPosID);
@@ -141,34 +182,40 @@ const Transaction = () => {
                     <h2 className="text-xl font-bold">
                         Filters
                     </h2>
-                    <article className="flex gap-12 my-2">
-                        <DateFilter
-                            fromDate={filterFromDate}
-                            setFromDate={setFilterFromDate}
-                            toDate={filterToDate}
-                            setToDate={setFilterToDate} 
-                        />
-                        <ProductFilter 
-                            productFilterList={productFilterList}
-                            filterByProduct={filterByProduct}
-                            setFilterByProduct={setFilterByProduct}
-                        />
-                        <TypeFilter 
-                            filterByType={filterByType}
-                            setFilterByType={setFilterByType}
-                        />
-                        <PriceFilter
-                            filterByPriceFrom={filterByPriceFrom}
-                            setFilterByPriceFrom={setFilterByPriceFrom}
-                            filterByPriceTo={filterByPriceTo}
-                            setFilterByPriceTo={setFilterByPriceTo}
-                        />
-                        <QuantityFilter
-                            filterByQuantityFrom={filterByQuantityFrom}
-                            setFilterByQuantityFrom={setFilterByQuantityFrom}
-                            filterByQuantityTo={filterByQuantityTo}
-                            setFilterByQuantityTo={setFilterByQuantityTo}
-                        />
+                    <article className="flex my-2 justify-between">
+                        <div className="flex gap-12">
+                            <DateFilter
+                                fromDate={filterFromDate}
+                                setFromDate={setFilterFromDate}
+                                toDate={filterToDate}
+                                setToDate={setFilterToDate} 
+                            />
+                            <ProductFilter 
+                                productFilterList={productFilterList}
+                                filterByProduct={filterByProduct}
+                                setFilterByProduct={setFilterByProduct}
+                            />
+                            <TypeFilter 
+                                filterByType={filterByType}
+                                setFilterByType={setFilterByType}
+                            />
+                            <PriceFilter
+                                filterByPriceFrom={filterByPriceFrom}
+                                setFilterByPriceFrom={setFilterByPriceFrom}
+                                filterByPriceTo={filterByPriceTo}
+                                setFilterByPriceTo={setFilterByPriceTo}
+                            />
+                            <QuantityFilter
+                                filterByQuantityFrom={filterByQuantityFrom}
+                                setFilterByQuantityFrom={setFilterByQuantityFrom}
+                                filterByQuantityTo={filterByQuantityTo}
+                                setFilterByQuantityTo={setFilterByQuantityTo}
+                            />
+                        </div>
+                        <button onClick={() => setFilterApplyBtn(!filterApplyBtn)} className="w-24 py-1 px-2 rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90">
+                            <span className="px-2 font-semibold">Apply</span>
+                            <FontAwesomeIcon icon={faFilter}/>
+                        </button>
                     </article>
                 </article>
                 <article className="flex gap-2 justify-between items-center py-2 my-2 border-t-2 border-b-2 border-raisinblack">

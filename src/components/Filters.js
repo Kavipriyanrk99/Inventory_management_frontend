@@ -126,7 +126,7 @@ export const QuantityFilter = ({ filterByQuantityFrom, setFilterByQuantityFrom, 
                     min={0}
                     value={filterByQuantityFrom}
                     onChange={(e) => setFilterByQuantityFrom(e.target.value)}
-                    className="w-16 px-2 py-1 text-slate-400 outline-none bg-raisinblack rounded-lg"
+                    className="w-16 px-2 py-1 text-slate-400 outline-none bg-raisinblack rounded-lg appearance-none"
                 ></input> 
                 <span className="px-1 text-slate-400">to</span>
                 <input 
