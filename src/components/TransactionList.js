@@ -62,7 +62,7 @@ const TransactionList = ({ transactions, pointerPosID, setPointerPosID }) => {
                     }
                 </article>
             </article> :
-            <div className="w-full pt-6 flex justify-center">
+            <div className="w-full flex justify-center items-center">
                 <NoDataFound />
             </div>
     );

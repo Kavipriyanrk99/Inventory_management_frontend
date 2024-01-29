@@ -1,4 +1,4 @@
-export const NoDataFound = ({ svg }) => {
+export const NoDataFound = () => {
     return(
         <div className="grid h-[550px] place-content-center px-4">
             <div className="text-center">
@@ -108,7 +108,7 @@ export const NoDataFound = ({ svg }) => {
                     <path d="m2570.3 718.08h558c46 0 83.333-37.333 83.333-83.333s-37.333-83.333-83.333-83.333h-558c-45.92 0-83.333 37.333-83.333 83.333s37.413 83.333 83.333 83.333" fill="url(#c)"/>
                     </g>
                 </svg>
-                
+
                 <h1 className="mt-6 text-2xl font-bold tracking-tight text-blue-600 sm:text-4xl">Oops!</h1>
 
                 <p className="mt-4 text-gray-500">No products found...</p>
