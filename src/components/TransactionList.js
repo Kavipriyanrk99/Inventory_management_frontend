@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getMonthName } from "../utils/date";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { NoDataFound } from "./Errors";
 
 const TransactionList = ({ transactions, pointerPosID, setPointerPosID }) => {
     return(
@@ -61,7 +62,9 @@ const TransactionList = ({ transactions, pointerPosID, setPointerPosID }) => {
                     }
                 </article>
             </article> :
-            <p>No transaction</p>
+            <div className="w-full pt-6 flex justify-center">
+                <NoDataFound />
+            </div>
     );
 }
 

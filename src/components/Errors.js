@@ -1,6 +1,6 @@
-export const NoDataFound = () => {
+export const NoDataFound = ({ svg }) => {
     return(
-        <div className="grid h-[520px] place-content-center px-4">
+        <div className="grid h-[550px] place-content-center px-4">
             <div className="text-center">
                 <svg version="1.1" viewBox="0 0 5333.3 5333.3" className="mx-auto h-56 w-auto sm:h-64" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -107,8 +107,8 @@ export const NoDataFound = () => {
                     <path d="m2577.7 698.59c90.173 510.49 871.59 477.57 416.67 0h-416.67" fill="url(#d)"/>
                     <path d="m2570.3 718.08h558c46 0 83.333-37.333 83.333-83.333s-37.333-83.333-83.333-83.333h-558c-45.92 0-83.333 37.333-83.333 83.333s37.413 83.333 83.333 83.333" fill="url(#c)"/>
                     </g>
-                    </svg>
-
+                </svg>
+                
                 <h1 className="mt-6 text-2xl font-bold tracking-tight text-blue-600 sm:text-4xl">Oops!</h1>
 
                 <p className="mt-4 text-gray-500">No products found...</p>
@@ -119,7 +119,7 @@ export const NoDataFound = () => {
 
 export const SomethingWentWrong = () => {
     return(
-        <div className="grid h-[520px] place-content-center px-4">
+        <div className="grid h-[550px] place-content-center px-4">
             <div className="text-center">
                 <svg version="1.1" viewBox="0 0 392 397" className="mx-auto h-56 w-auto sm:h-64" xmlns="http://www.w3.org/2000/svg">
                     <g fill="#98afcc">

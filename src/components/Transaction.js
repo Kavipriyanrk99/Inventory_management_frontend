@@ -250,25 +250,19 @@ const Transaction = () => {
                         setSortOrder={setSortOrder}
                     />
                 </article>
-                <article className="flex gap-8">
+                <article className="flex gap-8 justify-center">
                     {   
                         isTransactionsLoading && 
-                        <div className="w-full">
-                            <SquareSpinnerAnimation />
-                        </div>
+                        <SquareSpinnerAnimation />
                     }
                     { 
                         transactionsFetchError && transactionsFetchError === "No transactions found!" && 
-                        <div className="w-full">
-                            <NoDataFound />
-                        </div>
+                        <NoDataFound />
                         
                     }
                     { 
                         transactionsFetchError && transactionsFetchError === "No server response!" && 
-                        <div className="w-full">
-                            <SomethingWentWrong />
-                        </div>
+                        <SomethingWentWrong />
                     }
                     {
                         !isTransactionsLoading &&

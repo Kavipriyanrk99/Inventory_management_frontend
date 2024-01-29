@@ -1,6 +1,6 @@
 export const SquareSpinnerAnimation = () => {
     return(
-        <div className="h-[520px] flex flex-col justify-center items-center">
+        <div className="h-[550px] flex flex-col justify-center items-center">
             <div className="rounded-md h-16 w-16 border-4 border-t-4 border-blue-500 animate-spin"></div>
             <p className="p-8 font-semibold text-slate-400">Getting things ready for you...</p>
         </div>
