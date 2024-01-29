@@ -98,7 +98,7 @@ const Inbound = () => {
                                 type="submit"
                             >Add</button>
                             <button 
-                                className="w-24 h-9 py-2 text-sm font-semibold rounded-2xl bg-gradient-to-b from-blue-400 to-blue-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90"
+                                className="w-24 h-9 py-2 text-sm font-semibold rounded-2xl bg-gradient-to-b from-red-400 to-red-600 backdrop-blur-lg hover:cursor-pointer active:opacity-90"
                             >Clear</button>
                         </div>
                     </form>
