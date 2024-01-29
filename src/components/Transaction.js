@@ -8,6 +8,8 @@ import axios from "../API/axios";
 import { DateFilter, PriceFilter, ProductFilter, QuantityFilter, TypeFilter } from "./Filters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
+import { NoDataFound, SomethingWentWrong } from "./Errors";
 
 const GET_TRANSACTION_URI = '/transactions';
 
@@ -249,29 +251,54 @@ const Transaction = () => {
                     />
                 </article>
                 <article className="flex gap-8">
-                    <TransactionList 
-                        transactions={sortedTransactions.filter(transaction => (transaction.productName).toLowerCase().includes(search.toLowerCase().trim()))}
-                        pointerPosID={pointerPosID}
-                        setPointerPosID={setPointerPosID}
-                    />
-                    <article className="w-2/6">
-                        <div className="flex py-2 text-xs uppercase text-slate-400">
-                            <h2 >
-                                Transaction Details
-                            </h2>
+                    {   
+                        isTransactionsLoading && 
+                        <div className="w-full">
+                            <SquareSpinnerAnimation />
                         </div>
-                        {
-                            transactionSelected && 
-                                <TransactionMetricsCard 
-                                    transaction={transactionSelected}
-                                    setPointerPosID={setPointerPosID}
-                                />
-                        }
-                        {
-                            !transactionSelected && 
-                                <EmptyTransactionCard />
-                        }
-                    </article>
+                    }
+                    { 
+                        transactionsFetchError && transactionsFetchError === "No transactions found!" && 
+                        <div className="w-full">
+                            <NoDataFound />
+                        </div>
+                        
+                    }
+                    { 
+                        transactionsFetchError && transactionsFetchError === "No server response!" && 
+                        <div className="w-full">
+                            <SomethingWentWrong />
+                        </div>
+                    }
+                    {
+                        !isTransactionsLoading &&
+                        !transactionsFetchError &&
+                        <>
+                            <TransactionList 
+                                transactions={sortedTransactions.filter(transaction => (transaction.productName).toLowerCase().includes(search.toLowerCase().trim()))}
+                                pointerPosID={pointerPosID}
+                                setPointerPosID={setPointerPosID}
+                            />
+                            <article className="w-2/6">
+                                <div className="flex py-2 text-xs uppercase text-slate-400">
+                                    <h2 >
+                                        Transaction Details
+                                    </h2>
+                                </div>
+                                {
+                                    transactionSelected && 
+                                        <TransactionMetricsCard 
+                                            transaction={transactionSelected}
+                                            setPointerPosID={setPointerPosID}
+                                        />
+                                }
+                                {
+                                    !transactionSelected && 
+                                        <EmptyTransactionCard />
+                                }
+                            </article>
+                        </>
+                    }       
                 </article>
             </section>
         </section>
