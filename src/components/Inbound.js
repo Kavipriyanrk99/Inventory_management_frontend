@@ -1,7 +1,7 @@
 import InboundForm from "./InboundForm";
 import User from "./User";
 
-const Inbound = () => {
+const Inbound = ({ products, setProducts }) => {
     return(
         <section className="w-full py-4">
             <article className="flex justify-between">
@@ -14,7 +14,10 @@ const Inbound = () => {
                     />
                 </div>
             </article>
-            <InboundForm />
+            <InboundForm
+                products={products}
+                setProducts={setProducts} 
+            />
         </section>
     );
 }

@@ -34,7 +34,12 @@ function App() {
                     />
                     <Route 
                         path='inbound' 
-                        element={<Inbound />} 
+                        element={
+                            <Inbound 
+                                products={products}
+                                setProducts={setProducts} 
+                            />
+                        } 
                     />
                     <Route 
                         path='outbound' 
