@@ -1,5 +1,5 @@
 // 12 hours format
-export const getIST = (date) => {
+export const getIST = (utcDate) => {
     const timeInIST = new Intl.DateTimeFormat('en-US', {
                         year: 'numeric',
                         month: '2-digit',
@@ -7,7 +7,7 @@ export const getIST = (date) => {
                         hour: 'numeric',
                         minute: 'numeric',
                         timeZone: 'Asia/Kolkata',
-                    }).format(new Date(date));
+                    }).format(new Date(utcDate));
     
     const formatedIST = timeInIST.replaceAll('/', '-').replace(', ', 'T').replace(' ', '');
     const [MM, dd, yyyy] = formatedIST.split('T')[0].split('-');
@@ -16,7 +16,7 @@ export const getIST = (date) => {
 }
 
 // 24 hours format
-export const getISTMilitary = (date) => {
+export const getISTMilitary = (utcDate) => {
     const timeInIST = new Intl.DateTimeFormat('en-GB', {
                         year: 'numeric',
                         month: '2-digit',
@@ -24,7 +24,7 @@ export const getISTMilitary = (date) => {
                         hour: 'numeric',
                         minute: 'numeric',
                         timeZone: 'Asia/Kolkata',
-                    }).format(new Date(date));
+                    }).format(new Date(utcDate));
 
     const formatedIST = timeInIST.replaceAll('/', '-').replace(', ', 'T').replace(' ', '');
     const [MM, dd, yyyy] = formatedIST.split('T')[0].split('-');
@@ -44,3 +44,9 @@ export const getMonthName = (date) => {
     return date.toLocaleString('default', { month: 'long'});
 };
 
+export const getUTC = (istDate, istTime) => {
+    const formatedDate = istDate + "T" + istTime + ":00";
+    const utcDate = new Date(formatedDate).toISOString();
+
+    return utcDate;
+}
