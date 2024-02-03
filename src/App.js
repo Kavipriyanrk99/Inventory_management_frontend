@@ -18,7 +18,15 @@ function App() {
         <div className="App scroll-smooth min-h-screen bg-richblack font-sans text-white">
         {<Routes>
                 <Route path='/' element={<Layout />}>
-                    <Route index element={<Dashboard />} />
+                    <Route 
+                        index 
+                        element={
+                            <Dashboard
+                                products={products}
+                                setProducts={setProducts} 
+                            />
+                        } 
+                    />
                     <Route 
                         path='products' 
                         element={

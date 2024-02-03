@@ -1,8 +1,96 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBoxOpen, faIndianRupeeSign, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightArrowLeft, faBoxOpen, faIndianRupeeSign, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { DotLoaderAnimation } from "./IsLoadingAnimation";
 import ProductAvatar from "./ProductAvatar";
 import { getMonthName, getRegularTime } from "../utils/date";
+import { faProductHunt } from "@fortawesome/free-brands-svg-icons";
+
+export const MetricsCard = ({ isProductLoading, productFetchError, type, data }) => {
+    const color = (type === "products" ? "orange" : type === "stockUnits" ? "yellow" : "green");
+    const paddingX = (type === "products" ? "2.5" : type === "stockUnits" ? "2" : "4");
+    const caption = (type === "products" ? "Products" : type === "stockUnits" ? "Stock Units" : "Stock Worth");
+
+    return(
+        <article className="min-w-56 min-h-36 my-2 p-4 bg-raisinblack rounded-xl relative">
+            <FontAwesomeIcon 
+                icon={type === "products" ? faProductHunt : type === "stockUnits" ? faBoxOpen : faIndianRupeeSign} 
+                className={`text-2xl px-${paddingX} py-2.5 rounded-lg bg-gradient-to-b from-${color}-400 to-${color}-500 backdrop-blur-lg`}
+            />
+            {isProductLoading && <DotLoaderAnimation />}
+            {   
+                productFetchError &&
+                <h3 className="text-2xl font-bold pt-1">
+                    {'...'}
+                </h3>
+            }
+            {   
+                !isProductLoading &&
+                !productFetchError &&
+                <h3 className="text-2xl font-bold pt-1">
+                    {data}
+                </h3>
+            }
+            <p className="text-slate-400">
+                {caption}
+            </p>
+            <div className={`absolute top-0 right-0 h-36 w-2 bg-gradient-to-b  backdrop-blur-lg border-e-1 rounded-e-md from-${color}-400 to-${color}-500`}></div>
+        </article>
+    );
+}
+
+export const MovementsMetricsCard = ({ isProductLoading, productFetchError, inPercentage, outPercentage }) => {
+    return(
+        <article className="min-w-56 min-h-36 my-2 p-4 bg-raisinblack rounded-xl relative">
+            <FontAwesomeIcon 
+                icon={faArrowRightArrowLeft} 
+                className="text-2xl px-3 py-2.5 rounded-lg bg-gradient-to-b from-blue-400 to-blue-500 backdrop-blur-lg" 
+            />
+            <div className="flex justify-start">
+                <div className="w-1/2">
+                    {isProductLoading && <DotLoaderAnimation />}
+                    {   
+                        productFetchError &&
+                        <h3 className="text-2xl font-bold pt-1">
+                            {'...'}
+                        </h3>
+                    }
+                    {   
+                        !isProductLoading &&
+                        !productFetchError &&
+                        <h3 className="text-2xl font-bold pt-1">
+                            {inPercentage}
+                            <span className="text-sm text-slate-400">%</span>
+                        </h3>
+                    }
+                    <p className="text-slate-400">
+                        Inbound
+                    </p>
+                </div>
+                <div className="w-1/2">
+                    {isProductLoading && <DotLoaderAnimation />}
+                    {   
+                        productFetchError &&
+                        <h3 className="text-2xl font-bold pt-1">
+                            {'...'}
+                        </h3>
+                    }
+                    {   
+                        !isProductLoading &&
+                        !productFetchError &&
+                        <h3 className="text-2xl font-bold pt-1">
+                            {outPercentage}
+                            <span className="text-sm text-slate-400">%</span>
+                        </h3>
+                    }
+                    <p className="text-slate-400">
+                        Outbound
+                    </p>
+                </div>
+            </div>
+            <div className={`absolute top-0 right-0 h-36 w-2 bg-gradient-to-b  backdrop-blur-lg border-e-1 rounded-e-md from-blue-400 to-blue-500`}></div>
+        </article>
+    );
+}
 
 export const UnitsMetricsCard = ({ isProductLoading, productFetchError, stockUnits }) => {
     return(
