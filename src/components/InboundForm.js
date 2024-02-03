@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import ProductSelectList from "./ProductSelectList";
 import { getIST, getISTMilitary, getUTC } from "../utils/date";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faCircleXmark, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "../API/axios";
-import { DotLoaderAnimation } from "./IsLoadingAnimation";
 import ProcessingIndicator from "./ProcessingIndicator";
 import ServerMsgHeader from "./ServerMsgHeader";
 
 const PRODUCT_INBOUND_URI = "products/inbound"; 
 
-const InboundForm = ({ products, setProducts }) => {
+const InboundForm = ({ products }) => {
     const productSelectRef = useRef();
 
     const [date, setDate] = useState(getIST(new Date()).split('T')[0]);
