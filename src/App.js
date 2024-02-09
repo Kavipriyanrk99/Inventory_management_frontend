@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import './App.css';
-import Layout from './Layout';
+import AppLayout from './AppLayout';
 import Dashboard from './components/Dashboard';
 import Product from './components/Product';
 import Transaction from './components/Transaction';
@@ -10,14 +10,31 @@ import Outbound from './components/Outbound';
 import Profile from './components/Profile';
 import Setting from './components/Setting';
 import NotFound from './components/NotFound';
+import Layout from './Layout';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
     const [products, setProducts] = useState([]);
     
     return (
-        <div className="App scroll-smooth min-h-screen bg-richblack font-sans text-white">
-        {<Routes>
+        <div className="App scroll-smooth h-screen bg-richblack font-sans text-white">
+            {<Routes>
                 <Route path='/' element={<Layout />}>
+                    <Route
+                        index
+                        element={
+                            <Login />
+                        } 
+                    />
+                    <Route
+                        path='register' 
+                        element={
+                            <Register />
+                        } 
+                    />
+                </Route>
+                <Route path='/' element={<AppLayout />}>
                     <Route 
                         index 
                         element={
