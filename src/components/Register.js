@@ -1,13 +1,18 @@
-import { faCube, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faCube, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../API/axios";
 
 const USERNAME_REGEX = /^[A-z][A-z0-9 ]{3,23}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
+const USER_REGISTER_URI = '/register';
+
 const Register = () => {
+    const navigate = useNavigate();
+
     const usernameRef = useRef();
 
     const [username, setUsername] = useState('');
@@ -27,10 +32,6 @@ const Register = () => {
     const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
     const [formMsg, setFormMsg] = useState('');
-
-    const [registerBtnClk, setRegisterBtnClk] = useState(false);
-    const [isRegistering, setIsRegistering] = useState(true);
-    const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
     useEffect(() => {
@@ -54,6 +55,58 @@ const Register = () => {
         setFormMsg('');
     }, [username, email, password, confirmPassword]);
 
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+
+        if(!username?.trim() || !email?.trim() || !password?.trim() || !confirmPassword?.trim()){
+            setFormMsg("fields can't be empty");
+            return;
+        }
+        
+        if(!isValidUsername || !isValidEmail || !isValidPassword || !isValidMatch){
+            setFormMsg("invalid entry");
+            return;
+        }
+
+        try{
+            const user = {
+                username : username,
+                email : email,
+                password : password
+            };
+
+            const response = await axios.post(USER_REGISTER_URI,
+                user,
+                {
+                    header : {
+                        'Content-Type' : 'application/json',
+                    },
+                }
+            );
+
+            if(response?.status === 201){
+                setSuccessMsg(response.data.message);
+                setFormMsg('');
+            }
+            
+        } catch(error){
+            if (!error?.response) {
+                setFormMsg('No Server Response');
+            } else {
+                setFormMsg(error.response.data.message);
+            }
+        } finally{
+            setUsername('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+        
+            setTimeout(() => {
+                navigate(-1);
+            }, 2000); 
+        }
+    }
+
     return(
            <section className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -62,10 +115,11 @@ const Register = () => {
                         Create an account
                     </h2>
                     {formMsg && <p className="text-sm text-red-400 text-center px-2 pb-2"><FontAwesomeIcon icon={faInfoCircle}/> {formMsg}</p>}
+                    {successMsg && <p className="text-sm text-blue-500 text-center px-2 pb-2"><FontAwesomeIcon icon={faCheckCircle} fade/> {"  " + successMsg}</p>}
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="username" className="block text-sm font-medium leading-6 text-slate-400">
                                 Full Name
@@ -75,7 +129,6 @@ const Register = () => {
                                     id="username"
                                     name="username"
                                     type="text"
-                                    required
                                     ref={usernameRef}
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
@@ -95,7 +148,6 @@ const Register = () => {
                                     id="email"
                                     name="email"
                                     type="email"
-                                    required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setEmailFocus(true)}
@@ -117,7 +169,6 @@ const Register = () => {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onFocus={() => setPasswordFocus(true)}
@@ -138,7 +189,6 @@ const Register = () => {
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
-                                    required
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     onFocus={() => setConfirmPasswordFocus(true)}
