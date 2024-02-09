@@ -1,13 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Head from "./components/Head";
-
 
 const Layout = () => {
     return(
-        <main className="flex">
-            <Head />
+        <main className="h-full">
             <Outlet />
-        </main>
+        </main> 
     );
 }
 
