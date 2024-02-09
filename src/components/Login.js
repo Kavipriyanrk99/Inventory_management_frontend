@@ -1,19 +1,100 @@
-import { faCube } from "@fortawesome/free-solid-svg-icons";
+import { faCube, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/USER_VALIDATION_REGEX";
+import axios from "../API/axios";
+
+const USER_AUTH_URI = '/auth';
 
 const Login = () => {
+    const emailRef = useRef();
+    
+    const [email, setEmail] = useState('');
+    const [isValidEmail, setIsValidEmail] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
+    
+    const [password, setPassword] = useState('');
+    const [isValidPassword, setIsValidPassword] = useState(false);
+    const [passwordFocus, setPasswordFocus] = useState(false);
+    
+    const [formMsg, setFormMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        emailRef.current.focus();
+    }, []);
+
+    useEffect(() => {
+        setIsValidEmail(EMAIL_REGEX.test(email)); 
+    }, [email]);
+
+    useEffect(() => {
+        setIsValidPassword(PASSWORD_REGEX.test(password));
+    }, [password]);
+
+    useEffect(() => {
+        setFormMsg('');
+    }, [email, password]);
+
+    const handleSubmit = async(event) => {
+        event.preventDefault(); 
+        if(!email?.trim() || !password?.trim()){
+            setFormMsg("fields can't be empty");
+            return; 
+        }
+
+        if(!isValidEmail || !isValidPassword){
+            setFormMsg("invalid entry");
+            return;
+        }
+
+        try{
+            const userCredentials = {
+                email : email,
+                password : password 
+            };
+
+            const response = await axios.post(USER_AUTH_URI, 
+                userCredentials, 
+                {
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    }
+                }
+            );
+
+            if(response?.status === 200){
+                setSuccess(true);
+                setFormMsg('');
+                console.log(response.data);
+            }
+        } catch(error){
+            if (!error?.response) {
+                setFormMsg('No Server Response');
+            } else if(error.status === 400 || error.status === 401) {
+                setFormMsg(error.response.data.message);
+            } else{
+                setFormMsg('login failed');
+            }
+        } finally{
+            setEmail('');
+            setPassword(''); 
+        }
+    }
+
     return(
-           <div className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+           <section className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <FontAwesomeIcon icon={faCube} className='w-full text-5xl text-blue-600'/>
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
                         Sign in to your account
                     </h2>
+                    {formMsg && <p className="text-sm text-red-400 text-center px-2 pb-2"><FontAwesomeIcon icon={faInfoCircle}/> {formMsg}</p>}
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-slate-400">
                                 Email address
@@ -23,9 +104,14 @@ const Login = () => {
                                     id="email"
                                     name="email"
                                     type="email"
-                                    required
+                                    ref={emailRef}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => setEmailFocus(true)}
+                                    onBlur={() => setEmailFocus(false)}
                                     className="w-full h-10 px-4 bg-black bg-opacity-40 rounded-lg outline-none border-2 border-blue-600 text-slate-400"
                                 />
+                                {emailFocus && email && !isValidEmail && <p className="text-sm text-red-400 px-4 py-2"><FontAwesomeIcon icon={faInfoCircle}/>  enter valid email</p>}
                             </div>
                         </div>
 
@@ -36,7 +122,7 @@ const Login = () => {
                                 </label>
                                 <div className="text-sm">
                                     <Link to='/'>
-                                        <span href="#" className="font-semibold text-blue-600 hover:text-blue-500">
+                                        <span className="font-semibold text-blue-600 hover:text-blue-500">
                                             Forgot password?
                                         </span>
                                     </Link>
@@ -47,9 +133,13 @@ const Login = () => {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    onFocus={() => setPasswordFocus(true)}
+                                    onBlur={() => setPasswordFocus(false)}
                                     className="w-full h-10 px-4 bg-black bg-opacity-40 rounded-lg outline-none border-2 border-blue-600 text-slate-400"
                                 />
+                                {passwordFocus && password && !isValidPassword && <p className="text-sm text-red-400 px-4 py-2"><FontAwesomeIcon icon={faInfoCircle}/> password should be 8 to 24 characters, must include uppercase and lowercase letters, a number and a special character {`(!@#$%)`}</p>}
                             </div>
                         </div>
 
@@ -72,7 +162,7 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
-            </div> 
+            </section> 
     );
 }
 
