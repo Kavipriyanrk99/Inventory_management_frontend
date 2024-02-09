@@ -3,10 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../API/axios";
-
-const USERNAME_REGEX = /^[A-z][A-z0-9 ]{3,23}$/;
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+import { EMAIL_REGEX, PASSWORD_REGEX, USERNAME_REGEX } from "../utils/USER_VALIDATION_REGEX";
 
 const USER_REGISTER_URI = '/register';
 
