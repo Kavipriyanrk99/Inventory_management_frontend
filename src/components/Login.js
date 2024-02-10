@@ -1,14 +1,16 @@
 import { faCube, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/USER_VALIDATION_REGEX";
 import axios from "../API/axios";
+import AuthContext from "../context/AuthProvider";
 
 const USER_AUTH_URI = '/auth';
 
 const Login = () => {
     const emailRef = useRef();
+    const { setAuth } = useContext(AuthContext);
     
     const [email, setEmail] = useState('');
     const [isValidEmail, setIsValidEmail] = useState(false);
@@ -60,7 +62,8 @@ const Login = () => {
                 {
                     headers : {
                         'Content-Type' : 'application/json'
-                    }
+                    },
+                    withCredentials : true
                 }
             );
 
@@ -68,6 +71,16 @@ const Login = () => {
                 setSuccess(true);
                 setFormMsg('');
                 console.log(response.data);
+
+                const accessToken = response.data?.accessToken;
+                const roles = response.data?.roles;
+
+                setAuth({
+                    email : email,
+                    password : password,
+                    roles : roles,
+                    accessToken : accessToken
+                });
             }
         } catch(error){
             if (!error?.response) {
