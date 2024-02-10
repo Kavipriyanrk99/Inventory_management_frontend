@@ -13,6 +13,7 @@ import NotFound from './components/NotFound';
 import Layout from './Layout';
 import Login from './components/Login';
 import Register from './components/Register';
+import NotFound404 from './components/NotFound404';
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -83,7 +84,7 @@ function App() {
                     </Route>
                     <Route 
                         path='/*' 
-                        element={<NotFound />}
+                        element={<NotFound404 />}
                     />
                 </Route>
             </Routes>}
