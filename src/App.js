@@ -33,54 +33,54 @@ function App() {
                             <Register />
                         } 
                     />
-                </Route>
-                <Route path='/' element={<AppLayout />}>
-                    <Route 
-                        index 
-                        element={
-                            <Dashboard
-                                products={products}
-                                setProducts={setProducts} 
-                            />
-                        } 
-                    />
-                    <Route 
-                        path='products' 
-                        element={
-                            <Product
-                                products={products}
-                                setProducts={setProducts} 
-                            />
-                        }
-                    />
-                    <Route 
-                        path='transactions' 
-                        element={<Transaction />} 
-                    />
-                    <Route 
-                        path='inbound' 
-                        element={
-                            <Inbound 
-                                products={products}
-                            />
-                        } 
-                    />
-                    <Route 
-                        path='outbound' 
-                        element={
-                            <Outbound
-                                products={products} 
-                            />
-                        } 
-                    />
-                    <Route 
-                        path='profile' 
-                        element={<Profile />} 
-                    />
-                    <Route 
-                        path='setting' 
-                        element={<Setting />} 
-                    />
+                    <Route path='/app' element={<AppLayout />}>
+                        <Route 
+                            index 
+                            element={
+                                <Dashboard
+                                    products={products}
+                                    setProducts={setProducts} 
+                                />
+                            } 
+                        />
+                        <Route 
+                            path='products' 
+                            element={
+                                <Product
+                                    products={products}
+                                    setProducts={setProducts} 
+                                />
+                            }
+                        />
+                        <Route 
+                            path='transactions' 
+                            element={<Transaction />} 
+                        />
+                        <Route 
+                            path='inbound' 
+                            element={
+                                <Inbound 
+                                    products={products}
+                                />
+                            } 
+                        />
+                        <Route 
+                            path='outbound' 
+                            element={
+                                <Outbound
+                                    products={products} 
+                                />
+                            } 
+                        />
+                        <Route 
+                            path='profile' 
+                            element={<Profile />} 
+                        />
+                        <Route 
+                            path='setting' 
+                            element={<Setting />} 
+                        />
+                    </Route>
                     <Route 
                         path='/*' 
                         element={<NotFound />}
