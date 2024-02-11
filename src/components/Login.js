@@ -1,7 +1,7 @@
 import { faCube, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../utils/USER_VALIDATION_REGEX";
 import axios from "../API/axios";
 import useAuth from "../hooks/useAuth";
@@ -11,6 +11,8 @@ const USER_AUTH_URI = '/auth';
 const Login = () => {
     const emailRef = useRef();
     const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
     
     const [email, setEmail] = useState('');
     const [isValidEmail, setIsValidEmail] = useState(false);
@@ -81,6 +83,8 @@ const Login = () => {
                     roles : roles,
                     accessToken : accessToken
                 });
+
+                navigate('/app', { replace : true });
             }
         } catch(error){
             if (!error?.response) {

@@ -15,6 +15,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import NotFound404 from './components/NotFound404';
 import Unauthorized from './components/Unauthorized';
+import ROLES_LIST from './utils/ROLES_LIST';
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -41,7 +42,7 @@ function App() {
                             <Unauthorized />
                         } 
                     />
-                    <Route path='/app' element={<AppLayout />}>
+                    <Route path='/app' element={<AppLayout allowedRoles={[ROLES_LIST.Admin]}/>}>
                         <Route 
                             index 
                             element={
