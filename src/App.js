@@ -14,6 +14,7 @@ import Layout from './Layout';
 import Login from './components/Login';
 import Register from './components/Register';
 import NotFound404 from './components/NotFound404';
+import Unauthorized from './components/Unauthorized';
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -32,6 +33,12 @@ function App() {
                         path='register' 
                         element={
                             <Register />
+                        } 
+                    />
+                    <Route
+                        path='unauthorized'
+                        element={
+                            <Unauthorized />
                         } 
                     />
                     <Route path='/app' element={<AppLayout />}>
