@@ -85,6 +85,15 @@ const Register = () => {
             if(response?.status === 201){
                 setSuccessMsg(response.data.message);
                 setFormMsg('');
+
+                setUsername('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+            
+                setTimeout(() => {
+                    navigate(-1);
+                }, 2000);
             }
             
         } catch(error){
@@ -93,16 +102,7 @@ const Register = () => {
             } else {
                 setFormMsg(error.response.data.message);
             }
-        } finally{
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-        
-            setTimeout(() => {
-                navigate(-1);
-            }, 2000); 
-        }
+        } 
     }
 
     return(
