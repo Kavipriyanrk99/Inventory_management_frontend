@@ -13,29 +13,26 @@ export const ProductDeleteAlert = ({ delProduct, setDelProduct, productsFetch })
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
-    const handleDelBtnClk = () => {
+    const handleDelBtnClk = async() => {
         const productID = delProduct.productID;
         setDelBtnClk(true);
+        try{
+            const response = await axiosPrivate.delete(`${DELETE_PRODUCT_URI}/${productID}`);
 
-        setTimeout(async () => {
-            try{
-                const response = await axiosPrivate.delete(`${DELETE_PRODUCT_URI}/${productID}`);
-
-                if(response?.status === 201){
-                    setSuccessMsg(response.data.message);
-                    setErrorMsg('');
-                    productsFetch();
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setErrorMsg('No server response!');
-                } else {
-                    setErrorMsg(err.response.data.message);
-                }
-            } finally{
-                setIsDeleting(false);
+            if(response?.status === 201){
+                setSuccessMsg(response.data.message);
+                setErrorMsg('');
+                productsFetch();
             }
-          }, 3000);
+        } catch(err){
+            if (!err?.response) {
+                setErrorMsg('No server response!');
+            } else {
+                setErrorMsg(err.response.data.message);
+            }
+        } finally{
+            setIsDeleting(false);
+        }
     }
 
     return(

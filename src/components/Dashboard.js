@@ -32,46 +32,42 @@ const Dashboard = ({ products, setProducts }) => {
         setStockUnits(stockUnitsFinder(products));
     }, [products]);
 
-    const productsFetch = () => {
-        setTimeout(async () => {
-            try{
-                const response = await axiosPrivate.get(GET_PRODUCT_URI);
+    const productsFetch = async() => {
+        try{
+            const response = await axiosPrivate.get(GET_PRODUCT_URI);
 
-                if(response?.status === 200){
-                    setProducts(response.data);
-                    setProductFetchError(null);
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setProductFetchError('No server response!');
-                } else {
-                    setProductFetchError(err.response.data.message);
-                }
-            } finally{
-                setIsProductLoading(false);
+            if(response?.status === 200){
+                setProducts(response.data);
+                setProductFetchError(null);
             }
-          }, 1000);
+        } catch(err){
+            if (!err?.response) {
+                setProductFetchError('No server response!');
+            } else {
+                setProductFetchError(err.response.data.message);
+            }
+        } finally{
+            setIsProductLoading(false);
+        }
     }
 
-    const transactionsFetch = () => {
-        setTimeout(async () => {
-            try{
-                const response = await axiosPrivate.get(GET_TRANSACTION_URI);
+    const transactionsFetch = async() => {
+        try{
+            const response = await axiosPrivate.get(GET_TRANSACTION_URI);
 
-                if(response?.status === 200){
-                    setTransactions(response.data.reverse());
-                    setTransactionsFetchError(null);
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setTransactionsFetchError('No server response!');
-                } else {
-                    setTransactionsFetchError(err.response.data.message);
-                }
-            } finally{
-                setIsTransactionsLoading(false);
+            if(response?.status === 200){
+                setTransactions(response.data.reverse());
+                setTransactionsFetchError(null);
             }
-          }, 1000);
+        } catch(err){
+            if (!err?.response) {
+                setTransactionsFetchError('No server response!');
+            } else {
+                setTransactionsFetchError(err.response.data.message);
+            }
+        } finally{
+            setIsTransactionsLoading(false);
+        }
     }
 
     return(

@@ -50,33 +50,30 @@ const AddForm = ({ handleAddBtnClk, productsFetch }) => {
         }
 
         setAddBtnClk(true);
-        setTimeout(async() => {
-            try{
-                const product = {
-                    productName: productName,
-                    barcode: barcode,
-                    unitPrice: unitPrice,
-                    description: description
-                };
-                
-                const response = await axiosPrivate.post(PRODUCT_ADD_URI, product);
-                
-                if(response?.status === 201){
-                    setSuccessMsg(response.data.message);
-                    setErrorMsg('');
-                    productsFetch();
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setErrorMsg('No Server Response');
-                } else {
-                    setErrorMsg(err.response.data.message);
-                }
-            } finally{
-                setIsAdding(false);
+        try{
+            const product = {
+                productName: productName,
+                barcode: barcode,
+                unitPrice: unitPrice,
+                description: description
+            };
+            
+            const response = await axiosPrivate.post(PRODUCT_ADD_URI, product);
+            
+            if(response?.status === 201){
+                setSuccessMsg(response.data.message);
+                setErrorMsg('');
+                productsFetch();
             }
-        }, 3000);
-        
+        } catch(err){
+            if (!err?.response) {
+                setErrorMsg('No Server Response');
+            } else {
+                setErrorMsg(err.response.data.message);
+            }
+        } finally{
+            setIsAdding(false);
+        }
     }
 
     const handleClear = (event) => {

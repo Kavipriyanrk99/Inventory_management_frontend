@@ -64,35 +64,33 @@ const InboundForm = ({ products }) => {
         }
 
         setAddBtnClk(true);
-        setTimeout(async() => {
-            try{
-                const product = {
-                    productID : inProduct.productID,
-                    date : getUTC(date, time),
-                    quantityReceived : quantityReceived,
-                    description : description
-                }
-                
-                const response = await axiosPrivate.patch( PRODUCT_INBOUND_URI, product, {
-                    headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
-
-                if(response?.status === 201){
-                    setSuccessMsg(response.data.message);
-                    setErrorMsg('');
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setErrorMsg('No Server Response');
-                } else {
-                    setErrorMsg(err.response.data.message);
-                }
-            } finally{
-                setIsAdding(false);
+        try{
+            const product = {
+                productID : inProduct.productID,
+                date : getUTC(date, time),
+                quantityReceived : quantityReceived,
+                description : description
             }
-        }, 5000); 
+            
+            const response = await axiosPrivate.patch( PRODUCT_INBOUND_URI, product, {
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+
+            if(response?.status === 201){
+                setSuccessMsg(response.data.message);
+                setErrorMsg('');
+            }
+        } catch(err){
+            if (!err?.response) {
+                setErrorMsg('No Server Response');
+            } else {
+                setErrorMsg(err.response.data.message);
+            }
+        } finally{
+            setIsAdding(false);
+        }
     }
 
     const handleReset = (event) => {

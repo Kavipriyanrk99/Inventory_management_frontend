@@ -55,33 +55,31 @@ const EditForm = ({ editProduct, setEditProduct, productsFetch }) => {
         }
 
         setSaveBtnClk(true);
-        setTimeout(async() => {
-            try{
-                const product = {
-                    productID: editProduct.productID,
-                    productName: productName,
-                    barcode: barcode,
-                    unitPrice: unitPrice,
-                    description: description
-                };
-                
-                const response = await axiosPrivate.patch(PRODUCT_UPDATE_URI, product);
-                
-                if(response?.status === 201){
-                    setSuccessMsg(response.data.message);
-                    setErrorMsg('');
-                    productsFetch();
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setErrorMsg('No Server Response');
-                } else {
-                    setErrorMsg(err.response.data.message);
-                }
-            } finally{
-                setIsSaving(false);
+        try{
+            const product = {
+                productID: editProduct.productID,
+                productName: productName,
+                barcode: barcode,
+                unitPrice: unitPrice,
+                description: description
+            };
+            
+            const response = await axiosPrivate.patch(PRODUCT_UPDATE_URI, product);
+            
+            if(response?.status === 201){
+                setSuccessMsg(response.data.message);
+                setErrorMsg('');
+                productsFetch();
             }
-        }, 3000);
+        } catch(err){
+            if (!err?.response) {
+                setErrorMsg('No Server Response');
+            } else {
+                setErrorMsg(err.response.data.message);
+            }
+        } finally{
+            setIsSaving(false);
+        }
     }
 
     const handleReset = (event) => {

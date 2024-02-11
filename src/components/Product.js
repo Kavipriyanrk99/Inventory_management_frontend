@@ -43,25 +43,23 @@ const Product = ({ products, setProducts}) => {
         stockUnitsFinder();
     }, [products]);
 
-    const productsFetch = () => {
-        setTimeout(async () => {
-            try{
-                const response = await axiosPrivate.get(GET_PRODUCT_URI);
+    const productsFetch = async() => {
+        try{
+            const response = await axiosPrivate.get(GET_PRODUCT_URI);
 
-                if(response?.status === 200){
-                    setProducts(response.data);
-                    setProductFetchError(null);
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setProductFetchError('No server response!');
-                } else {
-                    setProductFetchError(err.response.data.message);
-                }
-            } finally{
-                setIsProductLoading(false);
+            if(response?.status === 200){
+                setProducts(response.data);
+                setProductFetchError(null);
             }
-          }, 5000);
+        } catch(err){
+            if (!err?.response) {
+                setProductFetchError('No server response!');
+            } else {
+                setProductFetchError(err.response.data.message);
+            }
+        } finally{
+            setIsProductLoading(false);
+        }
     }
 
     const stockWorthFinder = () => {

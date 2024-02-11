@@ -62,31 +62,29 @@ const OutboundForm = ({ products }) => {
         }
 
         setRemoveBtnClk(true);
-        setTimeout(async() => {
-            try{
-                const product = {
-                    productID : outProduct.productID,
-                    date : getUTC(date, time),
-                    quantitySold : quantitySold,
-                    description : description
-                }
-                
-                const response = await axiosPrivate.patch( PRODUCT_OUTBOUND_URI, product);
-
-                if(response?.status === 201){
-                    setSuccessMsg(response.data.message);
-                    setErrorMsg('');
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setErrorMsg('No Server Response');
-                } else {
-                    setErrorMsg(err.response.data.message);
-                }
-            } finally{
-                setIsRemoving(false);
+        try{
+            const product = {
+                productID : outProduct.productID,
+                date : getUTC(date, time),
+                quantitySold : quantitySold,
+                description : description
             }
-        }, 5000);
+            
+            const response = await axiosPrivate.patch( PRODUCT_OUTBOUND_URI, product);
+
+            if(response?.status === 201){
+                setSuccessMsg(response.data.message);
+                setErrorMsg('');
+            }
+        } catch(err){
+            if (!err?.response) {
+                setErrorMsg('No Server Response');
+            } else {
+                setErrorMsg(err.response.data.message);
+            }
+        } finally{
+            setIsRemoving(false);
+        }
     }
 
     const handleReset = (event) => {

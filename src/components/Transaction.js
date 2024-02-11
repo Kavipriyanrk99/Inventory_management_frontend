@@ -141,26 +141,24 @@ const Transaction = () => {
             setTransactionSelected(null);
     }, [pointerPosID]);
 
-    const transactionsFetch = () => {
-        setTimeout(async () => {
-            try{
-                const response = await axiosPrivate.get(GET_TRANSACTION_URI);
+    const transactionsFetch = async() => {
+        try{
+            const response = await axiosPrivate.get(GET_TRANSACTION_URI);
 
-                if(response?.status === 200){
-                    setTransactions(response.data);
-                    setSortedTransactions([...response.data].reverse());
-                    setTransactionsFetchError(null);
-                }
-            } catch(err){
-                if (!err?.response) {
-                    setTransactionsFetchError('No server response!');
-                } else {
-                    setTransactionsFetchError(err.response.data.message);
-                }
-            } finally{
-                setIsTransactionsLoading(false);
+            if(response?.status === 200){
+                setTransactions(response.data);
+                setSortedTransactions([...response.data].reverse());
+                setTransactionsFetchError(null);
             }
-          }, 3000);
+        } catch(err){
+            if (!err?.response) {
+                setTransactionsFetchError('No server response!');
+            } else {
+                setTransactionsFetchError(err.response.data.message);
+            }
+        } finally{
+            setIsTransactionsLoading(false);
+        }
     }
 
     const handleClearBtnClk = () => {
