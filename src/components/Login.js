@@ -72,7 +72,6 @@ const Login = () => {
             if(response?.status === 200){
                 setSuccess(true);
                 setFormMsg('');
-                console.log(response.data);
 
                 const accessToken = response.data?.accessToken;
                 const roles = response.data?.roles;

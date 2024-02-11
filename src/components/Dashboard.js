@@ -6,11 +6,14 @@ import axios from "../API/axios";
 import { getMonthName } from "../utils/date";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 import { NoDataFound, SomethingWentWrong } from "./Errors";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const GET_PRODUCT_URI = '/products';
 const GET_TRANSACTION_URI = '/transactions';
 
 const Dashboard = ({ products, setProducts }) => {
+    const axiosPrivate = useAxiosPrivate();
+
     const [productFetchError, setProductFetchError] = useState(null);
     const [isProductLoading, setIsProductLoading]   = useState(true);
     const [stockUnits, setStockUnits] = useState(0);
@@ -27,13 +30,13 @@ const Dashboard = ({ products, setProducts }) => {
 
     useEffect(() => {
         setStockWorth(stockWorthFinder(products));
-        setStockUnits(stockUnitsFinder(products))
+        setStockUnits(stockUnitsFinder(products));
     }, [products]);
 
     const productsFetch = () => {
         setTimeout(async () => {
             try{
-                const response = await axios.get(GET_PRODUCT_URI);
+                const response = await axiosPrivate.get(GET_PRODUCT_URI);
 
                 if(response?.status === 200){
                     setProducts(response.data);
@@ -54,7 +57,7 @@ const Dashboard = ({ products, setProducts }) => {
     const transactionsFetch = () => {
         setTimeout(async () => {
             try{
-                const response = await axios.get(GET_TRANSACTION_URI);
+                const response = await axiosPrivate.get(GET_TRANSACTION_URI);
 
                 if(response?.status === 200){
                     setTransactions(response.data.reverse());
