@@ -3,13 +3,14 @@ import ProductSelectList from "./ProductSelectList";
 import { getIST, getISTMilitary, getUTC } from "../utils/date";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import axios from "../API/axios";
 import ProcessingIndicator from "./ProcessingIndicator";
 import ServerMsgHeader from "./ServerMsgHeader";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const PRODUCT_INBOUND_URI = "products/inbound"; 
 
 const InboundForm = ({ products }) => {
+    const axiosPrivate = useAxiosPrivate();
     const productSelectRef = useRef();
 
     const [date, setDate] = useState(getIST(new Date()).split('T')[0]);
@@ -72,7 +73,7 @@ const InboundForm = ({ products }) => {
                     description : description
                 }
                 
-                const response = await axios.patch( PRODUCT_INBOUND_URI, product, {
+                const response = await axiosPrivate.patch( PRODUCT_INBOUND_URI, product, {
                     headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                     }

@@ -2,7 +2,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { getIST, getISTMilitary, getUTC } from "../utils/date";
-import axios from "../API/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import ProductSelectList from "./ProductSelectList";
 import ProcessingIndicator from "./ProcessingIndicator";
 import ServerMsgHeader from "./ServerMsgHeader";
@@ -10,6 +10,7 @@ import ServerMsgHeader from "./ServerMsgHeader";
 const PRODUCT_OUTBOUND_URI = "products/outbound";
 
 const OutboundForm = ({ products }) => {
+    const axiosPrivate = useAxiosPrivate();
     const productSelectRef = useRef();
     
     const [date, setDate] = useState(getIST(new Date()).split('T')[0]);
@@ -70,11 +71,7 @@ const OutboundForm = ({ products }) => {
                     description : description
                 }
                 
-                const response = await axios.patch( PRODUCT_OUTBOUND_URI, product, {
-                    headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
+                const response = await axiosPrivate.patch( PRODUCT_OUTBOUND_URI, product);
 
                 if(response?.status === 201){
                     setSuccessMsg(response.data.message);

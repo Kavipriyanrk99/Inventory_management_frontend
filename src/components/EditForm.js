@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faCircleXmark, faIndianRupeeSign, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
-import axios from '../API/axios';
 import { DotLoaderAnimation } from "./IsLoadingAnimation";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const PRODUCT_UPDATE_URI = 'products/newproduct';
 
 const EditForm = ({ editProduct, setEditProduct, productsFetch }) => {
-
+    const axiosPrivate = useAxiosPrivate(); 
     const productNameRef = useRef();
 
     const [productName, setProductName] = useState(editProduct.productName);
@@ -65,11 +65,7 @@ const EditForm = ({ editProduct, setEditProduct, productsFetch }) => {
                     description: description
                 };
                 
-                const response = await axios.patch(PRODUCT_UPDATE_URI, product, {
-                    headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
+                const response = await axiosPrivate.patch(PRODUCT_UPDATE_URI, product);
                 
                 if(response?.status === 201){
                     setSuccessMsg(response.data.message);

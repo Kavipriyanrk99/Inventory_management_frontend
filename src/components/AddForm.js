@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faCircleXmark, faIndianRupeeSign, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
-import axios from '../API/axios';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { DotLoaderAnimation } from "./IsLoadingAnimation";
 
 const PRODUCT_ADD_URI = '/products/newproduct';
 
 const AddForm = ({ handleAddBtnClk, productsFetch }) => {
+    const axiosPrivate = useAxiosPrivate();
     const productNameRef = useRef();
 
     const [productName, setProductName] = useState('');
@@ -58,11 +59,7 @@ const AddForm = ({ handleAddBtnClk, productsFetch }) => {
                     description: description
                 };
                 
-                const response = await axios.post(PRODUCT_ADD_URI, product, {
-                    headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
+                const response = await axiosPrivate.post(PRODUCT_ADD_URI, product);
                 
                 if(response?.status === 201){
                     setSuccessMsg(response.data.message);

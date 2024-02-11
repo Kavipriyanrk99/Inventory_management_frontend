@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
-import axios from "../API/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 import { NoDataFound, SomethingWentWrong } from "./Errors";
 import { ProductDeleteAlert } from "./Alerts";
@@ -15,6 +15,7 @@ import { ProductDeleteAlert } from "./Alerts";
 const GET_PRODUCT_URI = '/products';
 
 const Product = ({ products, setProducts}) => {
+    const axiosPrivate = useAxiosPrivate();
     const [search, setSearch] = useState('');
     const [addBtnClk, setAddBtnClk] = useState({'clicked' : false});
     const [editProduct, setEditProduct] = useState({
@@ -45,7 +46,7 @@ const Product = ({ products, setProducts}) => {
     const productsFetch = () => {
         setTimeout(async () => {
             try{
-                const response = await axios.get(GET_PRODUCT_URI);
+                const response = await axiosPrivate.get(GET_PRODUCT_URI);
 
                 if(response?.status === 200){
                     setProducts(response.data);

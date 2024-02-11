@@ -2,11 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faCircleExclamation, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { DotLoaderAnimation } from "./IsLoadingAnimation";
-import axios from "../API/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const DELETE_PRODUCT_URI = 'products/newproduct';
 
 export const ProductDeleteAlert = ({ delProduct, setDelProduct, productsFetch }) => {
+    const axiosPrivate = useAxiosPrivate();
     const [delBtnClk, setDelBtnClk] = useState(false);
     const [isDeleting, setIsDeleting] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
@@ -18,7 +19,7 @@ export const ProductDeleteAlert = ({ delProduct, setDelProduct, productsFetch })
 
         setTimeout(async () => {
             try{
-                const response = await axios.delete(`${DELETE_PRODUCT_URI}/${productID}`);
+                const response = await axiosPrivate.delete(`${DELETE_PRODUCT_URI}/${productID}`);
 
                 if(response?.status === 201){
                     setSuccessMsg(response.data.message);

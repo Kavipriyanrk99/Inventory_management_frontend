@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { inboundMovementFinder, outboundMovementFinder, stockUnitsFinder, stockWorthFinder } from "../utils/stockMetrics";
 import { MetricsCard, MovementsMetricsCard } from "./MetricsCard";
 import User from "./User";
-import axios from "../API/axios";
 import { getMonthName } from "../utils/date";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 import { NoDataFound, SomethingWentWrong } from "./Errors";

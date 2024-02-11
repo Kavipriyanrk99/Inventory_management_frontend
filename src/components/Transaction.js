@@ -4,16 +4,17 @@ import User from "./User";
 import TransactionList from "./TransactionList";
 import { EmptyTransactionCard, TransactionMetricsCard } from "./MetricsCard";
 import SortList from "./SortList";
-import axios from "../API/axios";
 import { DateFilter, PriceFilter, ProductFilter, QuantityFilter, TypeFilter } from "./Filters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { SquareSpinnerAnimation } from "./IsLoadingAnimation";
 import { NoDataFound, SomethingWentWrong } from "./Errors";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const GET_TRANSACTION_URI = '/transactions';
 
 const Transaction = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
     const [sortedTransactions, setSortedTransactions] = useState([]);
     const [search, setSearch] = useState('');
@@ -143,7 +144,7 @@ const Transaction = () => {
     const transactionsFetch = () => {
         setTimeout(async () => {
             try{
-                const response = await axios.get(GET_TRANSACTION_URI);
+                const response = await axiosPrivate.get(GET_TRANSACTION_URI);
 
                 if(response?.status === 200){
                     setTransactions(response.data);
